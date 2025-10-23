@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  {{cookiecutter.project_slug}}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: {{cookiecutter.project_slug}}
+    ports:
+      - "{{cookiecutter.deployment_port}}:{{cookiecutter.deployment_port}}"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      {% if cookiecutter.use_jaeger == "y" -%}
+      - OTEL_EXPORTER_OTLP_ENDPOINT={{cookiecutter._oltp_endpoint}}
+      {% endif -%}
+    env_file:
+      - .env
+    volumes:
+      - ./{{cookiecutter.project_slug}}:/app/{{cookiecutter.project_slug}}
+      {% if cookiecutter.include_example_skills == "y" -%}
+      - ./skills:/app/skills
+      {% endif -%}
+      - ./agent_config.json:/app/agent_config.json
+    restart: unless-stopped
+    networks:
+      - {{cookiecutter.project_slug}}-network
+    {% if cookiecutter.use_jaeger == "y" -%}
+    depends_on:
+      - jaeger
+    {% endif -%}
+{% if cookiecutter.use_jaeger == "y" %}
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: {{cookiecutter.project_slug}}-jaeger
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "4318:4318"    # OTLP HTTP receiver
+      - "4317:4317"    # OTLP gRPC receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - {{cookiecutter.project_slug}}-network
+    restart: unless-stopped
+{% endif %}
+networks:
+  {{cookiecutter.project_slug}}-network:
+    driver: bridge

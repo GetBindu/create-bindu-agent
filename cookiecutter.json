@@ -72,7 +72,8 @@
   "codecov": ["y", "n"],
   "devcontainer": ["n", "y"],
   "dockerfile": ["y", "n"],
-  
+  "use_jaeger": ["n", "y"],
+
   "open_source_license": [
     "MIT license",
     "Apache Software License 2.0",
