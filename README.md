@@ -1,13 +1,27 @@
 <p align="center">
-  <img src="https://github.com/Saptha-me/Bindu/blob/main/assets/light.svg" alt="bindu Logo" width="200">
+  <img src="assets/light.svg" alt="bindu Logo" width="200">
 </p>
 
----
+<h1 align="center"> Create Bindu Agent 🌻</h1>
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/fpgmaas/cookiecutter-uv/main.yml?branch=main)](https://github.com/fpgmaas/cookiecutter-uv/actions/workflows/main.yml?query=branch%3Amain)
-[![Supported Python versions](https://img.shields.io/badge/python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/fpgmaas/cookiecutter-uv/blob/main/pyproject.toml)
-[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://fpgmaas.github.io/cookiecutter-uv/)
-[![License](https://img.shields.io/github/license/fpgmaas/cookiecutter-uv)](https://img.shields.io/github/license/fpgmaas/cookiecutter-uv)
+<p align="center">
+  <em>“We imagine a world of agents where they can communicate with each other seamlessly.<br/>
+  And Bindu turns your agent into a living server , the dot (Bindu) in the Internet of Agents.”</em>
+</p>
+
+<br/>
+
+[![GitHub License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Hits](https://hits.sh/github.com/Saptha-me/create-bindu-agent.svg)](https://hits.sh/github.com/Saptha-me/create-bindu-agent/)
+[![Python Version](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Saptha-me/create-bindu-agent/pulls)
+[![Join Discord](https://img.shields.io/badge/Join%20Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/3w5zuYUuwt)
+[![Documentation](https://img.shields.io/badge/Documentation-📕-blue)](https://docs.saptha.me)
+[![GitHub stars](https://img.shields.io/github/stars/Sapptha-me/create-bindu-agent)](https://github.com/Saptha-me/create-bindu-agent/stargazers)
+
+<br/>
+
+
 
 This is a modern Cookiecutter template that can be used to initiate a Python project with all the necessary tools for development, testing, and deployment. It supports the following features:
 
