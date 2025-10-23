@@ -17,9 +17,6 @@ services:
       - .env
     volumes:
       - ./{{cookiecutter.project_slug}}:/app/{{cookiecutter.project_slug}}
-      {% if cookiecutter.include_example_skills == "y" -%}
-      - ./skills:/app/skills
-      {% endif -%}
       - ./agent_config.json:/app/agent_config.json
     restart: unless-stopped
     networks:

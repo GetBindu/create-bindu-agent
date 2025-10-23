@@ -32,8 +32,9 @@ def remove_dir(filepath: str) -> None:
 
 
 def create_skill_from_template(skill_name: str) -> None:
-    template_dir = os.path.join(PROJECT_DIRECTORY, "skills", "__TEMPLATE__")
-    skill_dir = os.path.join(PROJECT_DIRECTORY, "skills", skill_name)
+    project_slug = "{{cookiecutter.project_slug}}"
+    template_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__")
+    skill_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", skill_name)
     if os.path.exists(template_dir):
         # Copy template to new skill folder
         shutil.copytree(template_dir, skill_dir)
@@ -56,6 +57,7 @@ def move_dir(src: str, target: str) -> None:
 
 if __name__ == "__main__":
     # Handle dynamic skills creation
+    project_slug = "{{cookiecutter.project_slug}}"
     if "{{cookiecutter.include_example_skills}}" == "y":
         skill_names = "{{cookiecutter.skill_names}}".split(",")
         
@@ -65,14 +67,14 @@ if __name__ == "__main__":
                 create_skill_from_template(skill_name)
     
     # Remove the template folder
-    template_dir = os.path.join(PROJECT_DIRECTORY, "skills", "__TEMPLATE__")
+    template_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__")
     if os.path.exists(template_dir):
-        remove_dir(os.path.join("skills", "__TEMPLATE__"))
+        remove_dir(os.path.join(project_slug, "skills", "__TEMPLATE__"))
     
     # Remove skills folder if no skills created
-    skills_dir = os.path.join(PROJECT_DIRECTORY, "skills")
+    skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
     if os.path.exists(skills_dir) and not os.listdir(skills_dir):
-        remove_dir("skills")
+        remove_dir(os.path.join(project_slug, "skills"))
         
     if "{{cookiecutter.include_github_actions}}" != "y":
         remove_dir(".github")
