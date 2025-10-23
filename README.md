@@ -17,24 +17,28 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Saptha-me/create-bindu-agent/pulls)
 [![Join Discord](https://img.shields.io/badge/Join%20Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/3w5zuYUuwt)
 [![Documentation](https://img.shields.io/badge/Documentation-📕-blue)](https://docs.saptha.me)
-[![GitHub stars](https://img.shields.io/github/stars/Sapptha-me/create-bindu-agent)](https://github.com/Saptha-me/create-bindu-agent/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/Saptha-me/create-bindu-agent)](https://github.com/Saptha-me/create-bindu-agent/stargazers)
 
 <br/>
 
----
 
 ## 🚀 From Zero to Production-Ready Agent in 2 Minutes
 
-**Create Bindu Agent** is the fastest way to build production-ready AI agents that speak the language of the Internet of Agents. No boilerplate. No configuration hell. Just answer a few prompts and get a fully deployable agent that communicates using **A2A**, **AP2**, and **X402** protocols.
+**Create Bindu Agent** is the fastest way to build production-ready AI agents that speak the language of the Internet of Agents. No boilerplate. No configuration hell. Just configure and get a fully deployable agent that communicates using **A2A**, **AP2**, and **X402** protocols.
 
-### ✨ Why Create Bindu Agent?
 
-- **⚡ 2-Minute Setup**: Answer simple prompts, get a complete agent project
-- **🌐 Protocol-Ready**: Built-in support for A2A, AP2, and X402 — your agent speaks the universal language
-- **🔌 Framework Agnostic**: Works with Agno, LangChain, CrewAI, LlamaIndex, FastAgent, and more
-- **📦 Production-Ready**: Includes CI/CD, testing, Docker, documentation, and deployment configs
-- **🛠️ Best Practices**: Pre-configured with ruff, mypy, pytest, pre-commit hooks, and code quality tools
-- **🚢 Deploy Anywhere**: Your agent becomes a living server, ready to join the Internet of Agents
+### ✨ Why Use this?
+
+- **2-Minute Setup**: Answer simple questions, get a complete production ready agentic system.
+- **Lightweight**: No boilerplate. No configuration hell.
+- **Simple**: No complex setup. Just configure and get a fully deployable agent.
+- **Secure**: Built-in authentication, error tracking, and monitoring.
+- **Protocol-Ready**: Built-in support for A2A, AP2, and X402 — your agent speaks the universal language
+- **Framework Agnostic**: Works with Agno, LangChain, CrewAI, LlamaIndex, FastAgent, and more
+- **Production-Ready**: Includes CI/CD, testing, Docker, documentation, and deployment configs.
+- **Observability**: Built-in support for Phoenix, Langfuse, and Jaeger.
+- **Best Practices**: Pre-configured with ruff, mypy, pytest, pre-commit hooks, and code quality tools
+- **Deploy Anywhere**: Your agent becomes a living server, ready to join the Internet of Agents
 
 ### 🎯 What You Get
 
@@ -43,21 +47,20 @@ This Cookiecutter template scaffolds a complete Bindu Agent project with everyth
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - CI/CD with [GitHub Actions](https://github.com/features/actions)
 - Pre-commit hooks with [pre-commit](https://pre-commit.com/)
-- Code quality with [ruff](https://github.com/charliermarsh/ruff), [mypy](https://mypy.readthedocs.io/en/stable/)/[ty](https://docs.astral.sh/ty/) and [deptry](https://github.com/fpgmaas/deptry/).
+- Code quality with [ruff](https://github.com/charliermarsh/ruff), [ty](https://docs.astral.sh/ty/)
 - Publishing to [PyPI](https://pypi.org) by creating a new release on GitHub
 - Testing and coverage with [pytest](https://docs.pytest.org/en/7.1.x/) and [codecov](https://about.codecov.io/)
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Containerization with [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
-- **Agent-ready structure** with `main.py`, skills templates, and configuration
-- **Protocol compliance** for A2A, AP2, and X402 out of the box
+
 
 ---
 
-## 🎬 How It Works
+## How It Works
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. Run cookiecutter  →  2. Answer prompts  →  3. Deploy!  │
+│  1. Run cookiecutter  →  2. Answer prompts  →  3. Deploy!   │
 └─────────────────────────────────────────────────────────────┘
                               ↓
         Your agent is now live and speaking A2A, AP2, X402
@@ -69,11 +72,41 @@ This Cookiecutter template scaffolds a complete Bindu Agent project with everyth
 
 When you create a Bindu Agent, you're not just getting a template — you're getting a **living server** that:
 
-- 🗣️ **Speaks Universal Protocols**: A2A for agent-to-agent communication, AP2 for agentic commerce, X402 for payment rails
-- 🔐 **Secure by Design**: Built-in authentication, error tracking, and monitoring
-- 🌍 **Discoverable**: Your agent can be found and connected by other agents across the web
-- 🧠 **Framework Flexible**: Bring your own agent framework (Agno, LangChain, CrewAI, etc.)
-- 📡 **Production-Ready**: From localhost to cloud in minutes, not days
+- **Speaks Universal Protocols**: A2A for agent-to-agent communication, AP2 for agentic commerce, X402 for payment rails
+- **Secure by Design**: Built-in authentication, error tracking, and monitoring
+- **Discoverable**: Your agent can be found and connected by other agents across the web
+- **Framework Flexible**: Bring your own agent framework (Agno, LangChain, CrewAI, etc.)
+- **Production-Ready**: From localhost to cloud in minutes, not days
+
+
+### The Vision
+
+```bash
+a peek into the night sky
+}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+{{            +             +                  +   @          {{
+}}   |                *           o     +                .    }}
+{{  -O-    o               .               .          +       {{
+}}   |                    _,.-----.,_         o    |          }}
+{{           +    *    .-'.         .'-.          -O-         {{
+}}      *            .'.-'   .---.   `'.'.         |     *    }}
+{{ .                /_.-'   /     \   .'-.\                   {{
+}}         ' -=*<  |-._.-  |   @   |   '-._|  >*=-    .     + }}
+{{ -- )--           \`-.    \     /    .-'/                   {{
+}}       *     +     `.'.    '---'    .'.'    +       o       }}
+{{                  .  '-._         _.-'  .                   {{
+}}         |               `~~~~~~~`       - --===D       @   }}
+{{   o    -O-      *   .                  *        +          {{
+}}         |                      +         .            +    }}
+{{ jgs          .     @      o                        *       {{
+}}       o                          *          o           .  }}
+{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{
+```
+
+Each symbol is an agent — a spark of intelligence.
+And the single tiny dot is Bindu, the origin point in the Internet of Agents.<br/>
+
+<br/>
 
 ---
 
@@ -122,9 +155,9 @@ uv run python -m your_agent.main  # Start your agent server
 
 **That's it!** Your agent is now live at `http://localhost:8030` and ready to communicate with other agents using A2A, AP2, and X402 protocols.
 
----
+<br/>
 
-## 🌐 The Internet of Agents
+## The Internet of Agents
 
 Your Bindu Agent isn't just another API — it's a **citizen of the Internet of Agents**:
 
@@ -134,18 +167,18 @@ Your Bindu Agent isn't just another API — it's a **citizen of the Internet of 
 
 Each protocol is pre-configured in your `agent_config.json`. Your agent speaks the universal language from day one.
 
----
+<br/>
 
-## 🎓 Learn More
+## Learn More
 
 - **[Bindu Documentation](https://docs.saptha.me)** - Deep dive into Bindu's capabilities
 - **[Bindu GitHub](https://github.com/Saptha-me/Bindu)** - The core library that powers your agent
 - **[Join Discord](https://discord.gg/3w5zuYUuwt)** - Get help, share ideas, and connect with the community
 - **[Example Agents](https://github.com/Saptha-me/Bindu/tree/main/examples)** - See Bindu agents in action
 
----
+<br/>
 
-## 💡 Why This Matters
+## Why This Matters
 
 **The Problem**: Building agents is easy. Making them talk to each other? That's the hard part.
 
@@ -168,6 +201,8 @@ uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
 # Done. Your agent speaks A2A, AP2, and X402.
 ```
 
+<br/>
+
 ### 🎯 Built for the Future
 
 We're entering the age of **agent swarms** — where thousands of AI agents collaborate, negotiate, and transact. Bindu ensures your agent is ready for this future:
@@ -177,9 +212,9 @@ We're entering the age of **agent swarms** — where thousands of AI agents coll
 - **Production-Grade**: Not a toy, not a demo — real infrastructure
 - **Community-Driven**: Join the movement at [Saptha.me](https://saptha.me)
 
----
+<br/>
 
-## 🤝 Contributing
+## Contributing
 
 We 💛 contributions! Whether you're:
 - Adding new agent framework templates
@@ -189,7 +224,7 @@ We 💛 contributions! Whether you're:
 
 Check out our [Contributing Guidelines](CONTRIBUTING.md) and join us on [Discord](https://discord.gg/3w5zuYUuwt)!
 
----
+<br/>
 
 ## Acknowledgements
 
@@ -202,7 +237,7 @@ This project is partially based on [cookiecutter-uv](https://github.com/fpgmaas/
 ---
 
 <p align="center">
-  <strong>Built with ❤️ by the team from Amsterdam 🌷</strong><br/>
+  <strong>Built with 💛 by the team from Amsterdam 🌷</strong><br/>
   <em>Happy Bindu! 🌻🚀✨</em>
 </p>
 
