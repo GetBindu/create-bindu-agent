@@ -71,7 +71,7 @@
   "codecov": ["y", "n"],
   "devcontainer": ["n", "y"],
   "dockerfile": ["y", "n"],
-  "use_jaeger": ["n", "y"],
+  "use_jaeger": ["y", "n"],
 
   "open_source_license": [
     "MIT license",
