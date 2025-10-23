@@ -84,6 +84,7 @@ def handler(messages: list[dict[str, str]]) -> Any:
     # Run agent with messages
     result = agent.run(input=messages)
     return result
+    {% endif %}
 
 
 if __name__ == "__main__":
