@@ -42,11 +42,7 @@ dev = [
     "pre-commit>=2.20.0",
     "tox-uv>=1.11.3",
     {% if cookiecutter.deptry == 'y' %}"deptry>=0.23.0",{% endif %}
-    {% if cookiecutter.type_checker == "mypy" -%}
-        "mypy>=0.991",
-    {%- elif cookiecutter.type_checker == "ty" -%}
-        "ty>=0.0.1a16",
-    {%- endif %}
+    {% if cookiecutter.type_checker == "ty" %}"ty>=0.0.1a16",{% endif %}
     {% if cookiecutter.codecov == 'y' %}"pytest-cov>=4.0.0",{% endif %}
     "ruff>=0.11.5",
     {% if cookiecutter.mkdocs == 'y' %}"mkdocs>=1.4.2",
@@ -61,17 +57,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["{{cookiecutter.project_slug}}"]
 
-{% if cookiecutter.type_checker == "mypy" -%}
-[tool.mypy]
-files = ["{{cookiecutter.project_slug}}"]
-disallow_untyped_defs = true
-disallow_any_unimported = true
-no_implicit_optional = true
-check_untyped_defs = true
-warn_return_any = true
-warn_unused_ignores = true
-show_error_codes = true
-{%- else -%}
+{% if cookiecutter.type_checker == "ty" -%}
 [tool.ty.environment]
 python = "./.venv"
 python-version = "3.12"

@@ -44,6 +44,9 @@
   "enable_llm_observability": ["n", "y"],
   "llm_observability_provider": ["phoenix", "langfuse"],
   
+  "type_checker": ["ty", "none"],
+  "deptry": ["y", "n"],
+  
   "storage_type": [
     "memory", 
     "postgres(not implemented)"
@@ -64,6 +67,7 @@
   ],
   
   "include_github_actions": ["y", "n"],
+  "publish_to_pypi": ["n", "y"],
   "mkdocs": ["y", "n"],
   "codecov": ["y", "n"],
   "devcontainer": ["n", "y"],
