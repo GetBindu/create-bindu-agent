@@ -1,0 +1,58 @@
+id: __SKILL_NAME__-v1
+name: __SKILL_NAME__
+version: 1.0.0
+author: {{ cookiecutter.email }}
+
+# Description
+description: |
+  Description of the __SKILL_NAME__ skill.
+  TODO: Update this description with your skill's purpose.
+
+# Tags and Modes
+tags:
+  - __SKILL_NAME__
+  - TODO-add-relevant-tags
+
+input_modes:
+  - text/plain
+  - application/json
+
+output_modes:
+  - text/plain
+  - application/json
+
+# Example Queries
+examples:
+  - "TODO: Add example query 1"
+  - "TODO: Add example query 2"
+  - "TODO: Add example query 3"
+
+# Detailed Capabilities
+capabilities_detail:
+  main_capability:
+    supported: true
+    description: "TODO: Describe what this skill does"
+    types:
+      - type1
+      - type2
+
+# Requirements
+requirements:
+  packages: []
+  system: []
+  min_memory_mb: 256
+
+# Performance Metrics
+performance:
+  avg_processing_time_ms: 1000
+  max_concurrent_requests: 10
+  memory_per_request_mb: 256
+  scalability: horizontal
+
+# Tool Restrictions
+allowed_tools:
+  - Read
+  - Write
+  - Execute
+
+# TODO: Customize this skill configuration for your use case

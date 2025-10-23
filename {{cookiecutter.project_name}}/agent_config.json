@@ -1,0 +1,69 @@
+{
+    "author": "{{ cookiecutter.email }}",
+    "name": "{{ cookiecutter.agent_name }}",
+    "description": "{{ cookiecutter.project_description }}",
+    "version": "{{ cookiecutter.agent_version }}",
+    "recreate_keys": true,
+    {% if cookiecutter.include_example_skills == "y" %}
+    "skills": [
+      {% set skill_list = cookiecutter.skill_names.split(',') %}
+      {% for skill in skill_list %}
+        "skills/{{ skill.strip() }}"{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ],
+    {% else %}
+    "skills": [],
+    {% endif %}
+
+    "capabilities": {
+      "reasoning": {{ "true" if cookiecutter.capabilities_reasoning == "y" else "false" }},
+      "code_execution": {{ "true" if cookiecutter.capabilities_code_execution == "y" else "false" }},
+      "web_search": {{ "true" if cookiecutter.capabilities_web_search == "y" else "false" }},
+      "file_operations": {{ "true" if cookiecutter.capabilities_file_operations == "y" else "false" }},
+      "multimodal": {{ "true" if cookiecutter.capabilities_multimodal == "y" else "false" }}
+    },
+    
+    "agent_trust": "{{ cookiecutter.agent_trust_level }}",
+    
+    "debug_mode": {{ "true" if cookiecutter.enable_debug_mode == "y" else "false" }},
+    "debug_level": {{ cookiecutter.debug_level }},
+    
+    {% if cookiecutter.enable_auth == "y" %}
+    "auth": {
+      "enabled": true,
+      "provider": "auth0"
+    },
+    {% endif %}
+    
+    "deployment": {
+      "url": "http://{{ cookiecutter.deployment_host }}:{{ cookiecutter.deployment_port }}",
+      "cors_origins": ["{{ cookiecutter.cors_origins }}"]
+    },
+    
+    "storage": {
+      "type": "memory"
+    },
+    
+    "scheduler": {
+      "type": "memory"
+    },
+    
+    {% if cookiecutter.enable_telemetry == "y" %}
+    "telemetry": {
+      "enabled": true,
+      "backend": "jaeger",
+      "oltp_endpoint": "http://localhost:4318/v1/traces",
+      "oltp_service_name": "{{ cookiecutter.project_slug }}"
+    },
+    {% endif %}
+    
+    {% if cookiecutter.enable_llm_observability == "y" %}
+    "llm_observability": {
+      "enabled": true,
+      "provider": "{{ cookiecutter.llm_observability_provider }}",
+      "endpoint": "{{ 'http://localhost:6006' if cookiecutter.llm_observability_provider == 'phoenix' else 'http://localhost:3000' }}"
+    },
+    {% endif %}
+    
+    "num_history_sessions": {{ cookiecutter.num_history_sessions }}
+  }
