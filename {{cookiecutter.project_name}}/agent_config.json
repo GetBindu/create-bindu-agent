@@ -3,7 +3,7 @@
     "name": "{{ cookiecutter.agent_name }}",
     "description": "{{ cookiecutter.project_description }}",
     "version": "{{ cookiecutter.agent_version }}",
-    "recreate_keys": true,
+    "recreate_keys": {{ "true" if cookiecutter.recreate_keys == "y" else "false" }},
     {% if cookiecutter.include_example_skills == "y" %}
     "skills": [
       {% set skill_list = cookiecutter.skill_names.split(',') %}
@@ -16,45 +16,68 @@
     {% endif %}
 
     "capabilities": {
-      "reasoning": {{ "true" if cookiecutter.capabilities_reasoning == "y" else "false" }},
-      "code_execution": {{ "true" if cookiecutter.capabilities_code_execution == "y" else "false" }},
-      "web_search": {{ "true" if cookiecutter.capabilities_web_search == "y" else "false" }},
-      "file_operations": {{ "true" if cookiecutter.capabilities_file_operations == "y" else "false" }},
-      "multimodal": {{ "true" if cookiecutter.capabilities_multimodal == "y" else "false" }}
     },
     
-    "agent_trust": "{{ cookiecutter.agent_trust_level }}",
+    "agent_trust": "low",
     
-    "debug_mode": {{ "true" if cookiecutter.enable_debug_mode == "y" else "false" }},
-    "debug_level": {{ cookiecutter.debug_level }},
+    "debug_mode": true,
+    "debug_level": 2,
     
     {% if cookiecutter.enable_auth == "y" %}
     "auth": {
-      "enabled": true,
-      "provider": "auth0"
+        "enabled": true,
+        "provider": "auth0",
+        "domain": "dev-tlzrol0zsxw40ujx.us.auth0.com",
+        "audience": "https://dev-tlzrol0zsxw40ujx.us.auth0.com/api/v2/",
+        "algorithms": ["RS256"],
+        "issuer": "https://dev-tlzrol0zsxw40ujx.us.auth0.com/",
+        "jwks_uri": "https://dev-tlzrol0zsxw40ujx.us.auth0.com/.well-known/jwks.json",
+        "require_permissions": false,
+        "public_endpoints": [
+            "/health",
+            "/.well-known/*",
+            "/did/resolve*",
+            "/agent/info",
+            "/agent/skills",
+            "/agent/skills/*"
+        ],
+        "permissions": {
+            "message/send": ["agent:write"],
+            "tasks/get": ["agent:read"],
+            "tasks/cancel": ["agent:write"],
+            "tasks/list": ["agent:read"],
+            "contexts/list": ["agent:read"],
+            "tasks/feedback": ["agent:write"]
+        }
     },
     {% endif %}
     
     "deployment": {
-      "url": "http://{{ cookiecutter.deployment_host }}:{{ cookiecutter.deployment_port }}",
-      "cors_origins": ["{{ cookiecutter.cors_origins }}"]
+        "url": "http://{{ cookiecutter.deployment_host }}:{{ cookiecutter.deployment_port }}",
+        "expose": true,
+        "protocol_version": "1.0.0",
+        "proxy_urls": ["{{ cookiecutter.deployment_host }}"],
+        "cors_origins": ["*"]
     },
     
     "storage": {
-      "type": "memory"
+      "type": "{{ cookiecutter.storage_type }}"
     },
     
     "scheduler": {
-      "type": "memory"
+      "type": "{{ cookiecutter.scheduler_type }}"
     },
     
     {% if cookiecutter.enable_telemetry == "y" %}
-    "telemetry": {
-      "enabled": true,
-      "backend": "jaeger",
-      "oltp_endpoint": "http://localhost:4318/v1/traces",
-      "oltp_service_name": "{{ cookiecutter.project_slug }}"
-    },
+    "oltp_endpoint": "http://localhost:4318/v1/traces",
+    "oltp_service_name": "{{ cookiecutter.project_slug }}",
+    "oltp_verbose_logging": false,
+    "oltp_service_version": "1.0.0",
+    "oltp_deployment_environment": "production",
+    "oltp_batch_max_queue_size": 2048,
+    "oltp_batch_schedule_delay_millis": 5000,
+    "oltp_batch_max_export_batch_size": 512,
+    "oltp_batch_export_timeout_millis": 30000,
     {% endif %}
     
     {% if cookiecutter.enable_llm_observability == "y" %}
@@ -63,7 +86,7 @@
       "provider": "{{ cookiecutter.llm_observability_provider }}",
       "endpoint": "{{ 'http://localhost:6006' if cookiecutter.llm_observability_provider == 'phoenix' else 'http://localhost:3000' }}"
     },
+    {% else %}
     {% endif %}
-    
-    "num_history_sessions": {{ cookiecutter.num_history_sessions }}
+    "num_history_sessions": 5
   }

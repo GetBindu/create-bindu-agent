@@ -5,16 +5,29 @@ description = "{{cookiecutter.project_description}}"
 authors = [{ name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}" }]
 readme = "README.md"
 keywords = ['python']
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "bindu=={{cookiecutter.bindu_version}}",
+    {% if cookiecutter.agent_framework == "agno" -%}
+    "agno>=2.2.0",
+    {%- elif cookiecutter.agent_framework == "langchain" -%}
+    "langchain>=0.3.0",
+    "langchain-openai>=0.2.0",
+    {%- elif cookiecutter.agent_framework == "crew" -%}
+    "crewai>=0.80.0",
+    {%- elif cookiecutter.agent_framework == "fastagent" -%}
+    "fastagent>=0.1.0",
+    {%- elif cookiecutter.agent_framework == "openai agent" -%}
+    "openai>=1.0.0",
+    {%- elif cookiecutter.agent_framework == "google adk agent" -%}
+    "google-generativeai>=0.8.0",
+    {%- endif %}
+]
 classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
@@ -45,23 +58,12 @@ dev = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-{% if cookiecutter.layout == "src" -%}
-[tool.hatch.build.targets.wheel]
-packages = ["src/{{cookiecutter.project_slug}}"]
-{%- else -%}
 [tool.hatch.build.targets.wheel]
 packages = ["{{cookiecutter.project_slug}}"]
-{%- endif %}
 
 {% if cookiecutter.type_checker == "mypy" -%}
 [tool.mypy]
-files = [
-    {%- if cookiecutter.layout == "src" -%}
-    "src"
-    {%- else -%}
-    "{{cookiecutter.project_slug}}"
-    {%- endif -%}
-]
+files = ["{{cookiecutter.project_slug}}"]
 disallow_untyped_defs = true
 disallow_any_unimported = true
 no_implicit_optional = true
@@ -72,14 +74,14 @@ show_error_codes = true
 {%- else -%}
 [tool.ty.environment]
 python = "./.venv"
-python-version = "3.9"
+python-version = "3.12"
 {%- endif %}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py312"
 line-length = 120
 fix = true
 
@@ -135,11 +137,5 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = [
-    {%- if cookiecutter.layout == "src" -%}
-    "src"
-    {%- else -%}
-    "{{cookiecutter.project_slug}}"
-    {%- endif -%}
-]
+source = ["{{cookiecutter.project_slug}}"]
 {% endif %}
