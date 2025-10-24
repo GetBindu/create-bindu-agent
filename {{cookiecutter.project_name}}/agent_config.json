@@ -70,8 +70,8 @@
     
     {% if cookiecutter.enable_telemetry == "y" %}
     "oltp_endpoint": [
-      {% if cookiecutter.use_jaeger == "y" %}"http://localhost:4318/v1/traces"{% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %},{% endif %}{% endif %}
-      {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %}"http://localhost:6006/v1/traces"{% endif %}
+      {% if cookiecutter.use_jaeger == "y" %}"http://jaeger:4318/v1/traces"{% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %},{% endif %}{% endif %}
+      {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %}"http://phoenix:6006/v1/traces"{% endif %}
     ],
     "oltp_service_name": "{{ cookiecutter.project_slug }}",
     "oltp_verbose_logging": true,
@@ -87,7 +87,7 @@
     "llm_observability": {
       "enabled": true,
       "provider": "{{ cookiecutter.llm_observability_provider }}",
-      "endpoint": "{{ 'http://localhost:6006' if cookiecutter.llm_observability_provider == 'phoenix' else 'http://localhost:3000' }}"
+      "endpoint": "{{ 'http://phoenix:6006' if cookiecutter.llm_observability_provider == 'phoenix' else 'http://localhost:3000' }}"
     },
     {% else %}
     {% endif %}

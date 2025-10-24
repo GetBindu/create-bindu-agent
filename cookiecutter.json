@@ -56,7 +56,7 @@
     "redis(not implemented)"
   ],
   
-  "deployment_host": "localhost",
+  "deployment_host": "0.0.0.0",
   "deployment_port": "3773",
   
   "log_level": [

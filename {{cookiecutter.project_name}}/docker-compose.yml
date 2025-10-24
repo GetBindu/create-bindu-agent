@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   {{cookiecutter.project_slug}}:
     build:
