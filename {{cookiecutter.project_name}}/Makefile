@@ -13,6 +13,7 @@ check: ## Run code quality tools.
 {% if cookiecutter.type_checker == "ty" -%}
 	@echo "🚀 Static type checking: Running ty"
 	@uv run ty check
+{%- endif %}
 
 .PHONY: test
 test: ## Test the code with pytest
