@@ -25,7 +25,7 @@ def load_config() -> dict:
     # Get path to agent_config.json in project root
     project_root = Path(__file__).parent.parent
     config_path = project_root / "agent_config.json"
-    
+
     with open(config_path, "r") as f:
         return json.load(f)
 
@@ -48,11 +48,11 @@ agent = Agent(
 
 def handler(messages: list[dict[str, str]]) -> Any:
     """Handle incoming agent messages.
-    
+
     Args:
         messages: List of message dicts with 'role' and 'content' keys
                   e.g., [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}]
-    
+
     Returns:
         Agent response (ManifestWorker will handle extraction)
     """
@@ -64,4 +64,6 @@ def handler(messages: list[dict[str, str]]) -> Any:
 
 
 # Bindufy and start the agent server
-bindufy(agent, config, handler)
+if __name__ == "__main__":
+    # Bindufy and start the agent server
+    bindufy(agent, config, handler)

@@ -1,13 +1,11 @@
 """Utility script to obtain Auth0 access tokens for testing."""
 
 import argparse
-import json
 import os
 import sys
-from urllib.error import HTTPError
-from urllib.request import Request, urlopen
 
 import pyperclip
+import requests
 from rich.console import Console
 from rich.panel import Panel
 
@@ -17,30 +15,23 @@ console = Console()
 def get_auth0_token(domain: str, client_id: str, client_secret: str) -> str:
     """Get Auth0 access token using client credentials flow."""
     audience = f"https://{domain}/api/v2/"
+    url = f"https://{domain}/oauth/token"
 
-    request = Request(
-        f"https://{domain}/oauth/token",
-        data=json.dumps(
-            {
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "audience": audience,
-                "grant_type": "client_credentials",
-            }
-        ).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
+    payload = {
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "audience": audience,
+        "grant_type": "client_credentials",
+    }
 
     try:
-        with urlopen(request) as response:
-            data = json.loads(response.read().decode("utf-8"))
-            return data["access_token"]
-    except HTTPError as e:
-        error_body = e.read().decode("utf-8")
-        console.print(f"[red]HTTP Error {e.code}:[/red] {error_body}")
+        response = requests.post(url, json=payload, timeout=10)
+        response.raise_for_status()
+        return response.json()["access_token"]
+    except requests.exceptions.HTTPError as e:  # type: ignore[attr-defined]
+        console.print(f"[red]HTTP Error {e.response.status_code}:[/red] {e.response.text}")
         sys.exit(1)
-    except Exception as e:
+    except requests.exceptions.RequestException as e:  # type: ignore[attr-defined]
         console.print(f"[red]Error:[/red] {e}")
         sys.exit(1)
 
@@ -86,9 +77,7 @@ def main():
         missing.append("--client-secret or AUTH0_CLIENT_SECRET")
 
     if missing:
-        console.print(
-            f"[red]Error:[/red] Missing required arguments: {', '.join(missing)}"
-        )
+        console.print(f"[red]Error:[/red] Missing required arguments: {', '.join(missing)}")
         parser.print_help()
         sys.exit(1)
 

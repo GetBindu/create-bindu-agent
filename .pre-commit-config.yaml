@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v5.0.0"
+    hooks:
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+        exclude: ^(\{\{cookiecutter\.project_name\}\}/|\.devcontainer/devcontainer\.json)
+      - id: pretty-format-json
+        exclude: ^(\{\{cookiecutter\.project_name\}\}/|\.devcontainer/devcontainer\.json)
+        args: [--autofix, --no-sort-keys]
+      - id: check-toml
+        exclude: ^\{\{cookiecutter\.project_name\}\}/
+      - id: check-yaml
+        exclude: ^\{\{cookiecutter\.project_name\}\}/
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.12.7"
+    hooks:
+      - id: ruff-check
+        args: [--exit-non-zero-on-fix]
+        exclude: ^\{\{cookiecutter\.project_name\}\}/
+      - id: ruff-format
+        exclude: ^\{\{cookiecutter\.project_name\}\}/

@@ -12,6 +12,7 @@
 """
 This file is run before the project is created.
 """
+
 from __future__ import annotations
 
 import re

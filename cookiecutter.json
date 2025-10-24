@@ -2,15 +2,12 @@
   "author": "Your Name",
   "email": "your.email@example.com",
   "author_github_handle": "your_github_handle",
-  
   "project_name": "my-bindu-agent",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "A Bindu AI agent for intelligent task handling",
-  
   "agent_name": "My Agent",
   "agent_version": "1.0.0",
   "bindu_version": "0.3.18",
-  
   "agent_framework": [
     "agno",
     "langchain",
@@ -20,59 +17,107 @@
     "google adk agent",
     "custom"
   ],
-  "include_example_skills": ["y", "n"],
+  "include_example_skills": [
+    "y",
+    "n"
+  ],
   "skill_names": "question-answering,pdf-processing",
-  
-  "enable_auth": ["y", "n"],
+  "enable_auth": [
+    "y",
+    "n"
+  ],
   "auth_provider": [
-    "auth0", 
-    "cognito(not implemented)", 
-    "azure ad(not implemented)", 
-    "google(not implemented)", 
+    "auth0",
+    "cognito(not implemented)",
+    "azure ad(not implemented)",
+    "google(not implemented)",
     "custom(not implemented)",
     "none"
   ],
-  
-  "enable_did": ["y", "n"],
-  "enable_pki": ["y", "n"],
-  "recreate_keys": ["y", "n"],
-  "enable_system_message": ["y", "n"],
-  "enable_context_based_history": ["n", "y"],
-  "verification_key_type": ["rsa", "ecdsa"],
-  
-  "enable_telemetry": ["y", "n"],
-  "enable_llm_observability": ["y", "n"],
-  "llm_observability_provider": ["phoenix", "langfuse"],
-  
-  "type_checker": ["ty", "none"],
-  "deptry": ["y", "n"],
-  
+  "enable_did": [
+    "y",
+    "n"
+  ],
+  "enable_pki": [
+    "y",
+    "n"
+  ],
+  "recreate_keys": [
+    "y",
+    "n"
+  ],
+  "enable_system_message": [
+    "y",
+    "n"
+  ],
+  "enable_context_based_history": [
+    "n",
+    "y"
+  ],
+  "verification_key_type": [
+    "rsa",
+    "ecdsa"
+  ],
+  "enable_telemetry": [
+    "y",
+    "n"
+  ],
+  "enable_llm_observability": [
+    "y",
+    "n"
+  ],
+  "llm_observability_provider": [
+    "phoenix",
+    "langfuse"
+  ],
+  "type_checker": [
+    "ty",
+    "none"
+  ],
+  "deptry": [
+    "y",
+    "n"
+  ],
   "storage_type": [
-    "memory", 
+    "memory",
     "postgres(not implemented)"
   ],
   "scheduler_type": [
-    "memory", 
+    "memory",
     "redis(not implemented)"
   ],
-  
   "deployment_host": "0.0.0.0",
   "deployment_port": "3773",
-  
   "log_level": [
-    "info", 
+    "info",
     "debug",
-    "warning", 
+    "warning",
     "error"
   ],
-  
-  "include_github_actions": ["y", "n"],
-  "mkdocs": ["y", "n"],
-  "codecov": ["y", "n"],
-  "devcontainer": ["n", "y"],
-  "dockerfile": ["y", "n"],
-  "use_jaeger": ["y", "n"],
-
+  "include_github_actions": [
+    "y",
+    "n"
+  ],
+  "mkdocs": [
+    "y",
+    "n"
+  ],
+  "codecov": [
+    "y",
+    "n"
+  ],
+  "devcontainer": [
+    "n",
+    "y"
+  ],
+  "dockerfile": [
+    "y",
+    "n"
+  ],
+  "use_jaeger": [
+    "y",
+    "n"
+  ],
   "open_source_license": [
     "MIT license",
     "Apache Software License 2.0",
@@ -81,7 +126,6 @@
     "GNU General Public License v3",
     "Not open source"
   ],
-
   "_comment": "Internal defaults (not prompted)",
   "_telemetry_backend": "jaeger",
   "_oltp_endpoint": "http://localhost:4318/v1/traces",

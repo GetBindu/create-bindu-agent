@@ -17,12 +17,12 @@
 
     "capabilities": {
     },
-    
+
     "agent_trust": "low",
-    
+
     "debug_mode": true,
     "debug_level": 2,
-    
+
     {% if cookiecutter.enable_auth == "y" %}
     "auth": {
         "enabled": true,
@@ -51,7 +51,7 @@
         }
     },
     {% endif %}
-    
+
     "deployment": {
         "url": "http://{{ cookiecutter.deployment_host }}:{{ cookiecutter.deployment_port }}",
         "expose": true,
@@ -59,15 +59,15 @@
         "proxy_urls": ["{{ cookiecutter.deployment_host }}"],
         "cors_origins": ["*"]
     },
-    
+
     "storage": {
       "type": "{{ cookiecutter.storage_type }}"
     },
-    
+
     "scheduler": {
       "type": "{{ cookiecutter.scheduler_type }}"
     },
-    
+
     {% if cookiecutter.enable_telemetry == "y" %}
     "oltp_endpoint": [
       {% if cookiecutter.use_jaeger == "y" %}"http://jaeger:4318/v1/traces"{% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %},{% endif %}{% endif %}
@@ -82,7 +82,7 @@
     "oltp_batch_max_export_batch_size": 512,
     "oltp_batch_export_timeout_millis": 30000,
     {% endif %}
-    
+
     {% if cookiecutter.enable_llm_observability == "y" %}
     "llm_observability": {
       "enabled": true,

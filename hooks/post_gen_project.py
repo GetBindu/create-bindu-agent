@@ -11,6 +11,7 @@
 """
 This file is run after the project is created.
 """
+
 from __future__ import annotations
 
 import os
@@ -33,7 +34,9 @@ def remove_dir(filepath: str) -> None:
 
 def create_skill_from_template(skill_name: str) -> None:
     project_slug = "{{cookiecutter.project_slug}}"
-    template_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__")
+    template_dir = os.path.join(
+        PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__"
+    )
     skill_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", skill_name)
     if os.path.exists(template_dir):
         # Copy template to new skill folder
@@ -48,11 +51,16 @@ def create_skill_from_template(skill_name: str) -> None:
 
 
 def move_file(filepath: str, target: str) -> None:
-    os.rename(os.path.join(PROJECT_DIRECTORY, filepath), os.path.join(PROJECT_DIRECTORY, target))
+    os.rename(
+        os.path.join(PROJECT_DIRECTORY, filepath),
+        os.path.join(PROJECT_DIRECTORY, target),
+    )
 
 
 def move_dir(src: str, target: str) -> None:
-    shutil.move(os.path.join(PROJECT_DIRECTORY, src), os.path.join(PROJECT_DIRECTORY, target))
+    shutil.move(
+        os.path.join(PROJECT_DIRECTORY, src), os.path.join(PROJECT_DIRECTORY, target)
+    )
 
 
 if __name__ == "__main__":
@@ -60,22 +68,24 @@ if __name__ == "__main__":
     project_slug = "{{cookiecutter.project_slug}}"
     if "{{cookiecutter.include_example_skills}}" == "y":
         skill_names = "{{cookiecutter.skill_names}}".split(",")
-        
+
         for skill_name in skill_names:
             skill_name = skill_name.strip()
             if skill_name:
                 create_skill_from_template(skill_name)
-    
+
     # Remove the template folder
-    template_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__")
+    template_dir = os.path.join(
+        PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__"
+    )
     if os.path.exists(template_dir):
         remove_dir(os.path.join(project_slug, "skills", "__TEMPLATE__"))
-    
+
     # Remove skills folder if no skills created
     skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
     if os.path.exists(skills_dir) and not os.listdir(skills_dir):
         remove_dir(os.path.join(project_slug, "skills"))
-        
+
     if "{{cookiecutter.include_github_actions}}" != "y":
         remove_dir(".github")
     else:
