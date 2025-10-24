@@ -8,13 +8,12 @@ services:
       - "{{cookiecutter.deployment_port}}:{{cookiecutter.deployment_port}}"
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      {% if cookiecutter.use_jaeger == "y" -%}
-      - OTEL_EXPORTER_OTLP_ENDPOINT={{cookiecutter._oltp_endpoint}}
-      {% endif -%}
       {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" -%}
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4317
-      {% endif -%}
-    
+      {% elif cookiecutter.use_jaeger == "y" -%}
+      - OTEL_EXPORTER_OTLP_ENDPOINT={{cookiecutter._oltp_endpoint}}
+      {% endif %}
+      
     env_file:
       - .env
     volumes:
