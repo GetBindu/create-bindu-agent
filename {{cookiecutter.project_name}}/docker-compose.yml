@@ -13,6 +13,9 @@ services:
       {% if cookiecutter.use_jaeger == "y" -%}
       - OTEL_EXPORTER_OTLP_ENDPOINT={{cookiecutter._oltp_endpoint}}
       {% endif -%}
+      {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" -%}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4317
+      {% endif -%}
     env_file:
       - .env
     volumes:
@@ -21,9 +24,14 @@ services:
     restart: unless-stopped
     networks:
       - {{cookiecutter.project_slug}}-network
-    {% if cookiecutter.use_jaeger == "y" -%}
+    {% if cookiecutter.use_jaeger == "y" or (cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix") -%}
     depends_on:
+      {% if cookiecutter.use_jaeger == "y" -%}
       - jaeger
+      {% endif -%}
+      {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" -%}
+      - phoenix
+      {% endif -%}
     {% endif -%}
 {% if cookiecutter.use_jaeger == "y" %}
   jaeger:
@@ -39,6 +47,26 @@ services:
       - {{cookiecutter.project_slug}}-network
     restart: unless-stopped
 {% endif %}
+{% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %}
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: {{cookiecutter.project_slug}}-phoenix
+    ports:
+      - "6006:6006"  # Phoenix UI and OTLP HTTP collector
+      - "4317:4317"  # OTLP gRPC collector
+    environment:
+      - PHOENIX_WORKING_DIR=/mnt/data
+    volumes:
+      - phoenix_data:/mnt/data
+    networks:
+      - {{cookiecutter.project_slug}}-network
+    restart: unless-stopped
+{% endif %}
 networks:
   {{cookiecutter.project_slug}}-network:
     driver: bridge
+{% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" %}
+volumes:
+  phoenix_data:
+    driver: local
+{% endif %}

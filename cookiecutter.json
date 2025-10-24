@@ -41,7 +41,7 @@
   "verification_key_type": ["rsa", "ecdsa"],
   
   "enable_telemetry": ["y", "n"],
-  "enable_llm_observability": ["n", "y"],
+  "enable_llm_observability": ["y", "n"],
   "llm_observability_provider": ["phoenix", "langfuse"],
   
   "type_checker": ["ty", "none"],

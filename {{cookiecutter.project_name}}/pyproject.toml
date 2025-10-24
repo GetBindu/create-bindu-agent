@@ -10,6 +10,9 @@ dependencies = [
     "bindu=={{cookiecutter.bindu_version}}",
     {% if cookiecutter.agent_framework == "agno" -%}
     "agno>=2.2.0",
+    {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" -%}
+    "openinference-instrumentation-agno==0.1.19",
+    {%- endif %}
     {%- elif cookiecutter.agent_framework == "langchain" -%}
     "langchain>=0.3.0",
     "langchain-openai>=0.2.0",
