@@ -47,7 +47,6 @@ dev = [
     "pytest>=7.2.0",
     "pre-commit>=2.20.0",
     "tox-uv>=1.11.3",
-    {% if cookiecutter.deptry == 'y' %}"deptry>=0.23.0",{% endif %}
     {% if cookiecutter.type_checker == "ty" %}"ty>=0.0.1a16",{% endif %}
     {% if cookiecutter.codecov == 'y' %}"pytest-cov>=4.0.0",{% endif %}
     "ruff>=0.11.5",
@@ -133,8 +132,3 @@ branch = true
 source = ["{{cookiecutter.project_slug}}"]
 {% endif %}
 
-{% if cookiecutter.deptry == 'y' -%}
-[tool.deptry]
-ignore = ["DEP002"]
-extend_exclude = ["get_auth0_token\\.py"]
-{%- endif %}

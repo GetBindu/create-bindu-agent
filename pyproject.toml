@@ -1,0 +1,44 @@
+[project]
+name = "create-bindu-agent"
+version = "0.1.0"
+description = "A cookiecutter template for Python agent projects that use uv for dependency management"
+authors = [{ name = "raahul", email = "raahul@saptha.me" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=2.20.0",
+    "pytest>=7.2.0",
+    "pytest-cov>=4.0.0",
+    "pytest-cookies>=0.7.0",
+    "pyyaml>=6.0",
+    "ty>=0.0.1a16",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=8.5.10",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ty.environment]
+python = "./.venv"
+python-version = "3.9"
+
+[tool.coverage.run]
+omit = [
+    "{{cookiecutter.project_name}}/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]

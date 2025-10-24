@@ -1,5 +1,5 @@
 example-project
-cookiecutter-uv-example
+create-bindu-agent-example
 
 # From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
@@ -143,7 +143,7 @@ cython_debug/
 # Exclude .DS_Store files from being added
 .DS_Store
 example-project
-cookiecutter-uv-example
+create-bindu-agent-example
 
 # From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
