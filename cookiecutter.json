@@ -9,7 +9,7 @@
   
   "agent_name": "My Agent",
   "agent_version": "1.0.0",
-  "bindu_version": "0.3.16",
+  "bindu_version": "0.3.18",
   
   "agent_framework": [
     "agno",
