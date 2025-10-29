@@ -38,9 +38,9 @@ A short description of your agent project. Default: `A Bindu AI agent for intell
 
 ## Agent Configuration
 
-**agent_name**
+**project_name**
 
-The display name for your agent. Default: `My Agent`
+The name of your agent project. Default: `my-bindu-agent`
 
 **agent_version**
 

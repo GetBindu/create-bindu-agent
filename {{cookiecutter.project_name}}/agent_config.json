@@ -1,6 +1,6 @@
 {
     "author": "{{ cookiecutter.email }}",
-    "name": "{{ cookiecutter.agent_name }}",
+    "name": "{{ cookiecutter.project_name }}",
     "description": "{{ cookiecutter.project_description }}",
     "version": "{{ cookiecutter.agent_version }}",
     "recreate_keys": {{ "true" if cookiecutter.recreate_keys == "y" else "false" }},
@@ -17,6 +17,18 @@
 
     "capabilities": {
     },
+
+    {% if cookiecutter.enable_execution_cost == "y" %}
+    "execution_cost": {
+        "amount": "$0.0001",
+        "token": "USDC",
+        "network": "base-sepolia",
+        "pay_to_address": "0x0000000000000000000000000000000000000000",
+        "protected_methods": [
+            "message/send"
+        ]
+    },
+    {% endif %}
 
     "agent_trust": "low",
 

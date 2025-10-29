@@ -5,9 +5,8 @@
   "project_name": "my-bindu-agent",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "A Bindu AI agent for intelligent task handling",
-  "agent_name": "My Agent",
   "agent_version": "1.0.0",
-  "bindu_version": "0.3.18",
+  "bindu_version": "0.3.19",
   "agent_framework": [
     "agno",
     "langchain",
@@ -69,6 +68,10 @@
   "llm_observability_provider": [
     "phoenix",
     "langfuse"
+  ],
+  "enable_execution_cost": [
+    "n",
+    "y"
   ],
   "type_checker": [
     "ty",
