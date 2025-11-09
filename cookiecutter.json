@@ -6,7 +6,7 @@
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "A Bindu AI agent for intelligent task handling",
   "agent_version": "1.0.0",
-  "bindu_version": "0.3.19",
+  "bindu_version": "0.3.20",
   "agent_framework": [
     "agno",
     "langchain",
