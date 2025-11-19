@@ -27,16 +27,16 @@
     "google"
   ],
   "observability_provider": [
-    "none",
-    "jaeger",
     "phoenix",
-    "langfuse"
+    "jaeger",
+    "langfuse",
+    "none"
   ],
   "security_features": [
-    "none",
+    "did-and-pki",
     "did-only",
     "pki-only",
-    "did-and-pki"
+    "none"
   ],
   "include_github_actions": [
     "y",
