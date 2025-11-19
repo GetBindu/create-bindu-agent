@@ -10,7 +10,7 @@ check: ## Run code quality tools.
 	@uv lock --locked
 	@echo "🚀 Linting code: Running pre-commit"
 	@uv run pre-commit run -a
-{% if cookiecutter.type_checker == "ty" -%}
+{% if cookiecutter._type_checker == "ty" -%}
 	@echo "🚀 Static type checking: Running ty"
 	@uv run ty check
 {%- endif %}
@@ -18,11 +18,7 @@ check: ## Run code quality tools.
 .PHONY: test
 test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
-{%- if cookiecutter.codecov == "y"%}
 	@uv run python -m pytest --cov --cov-config=pyproject.toml --cov-report=xml
-{%- else %}
-	@uv run python -m pytest --doctest-modules
-{%- endif%}
 
 .PHONY: build
 build: clean-build ## Build wheel file
@@ -34,7 +30,6 @@ clean-build: ## Clean build artifacts
 	@echo "🚀 Removing build artifacts"
 	@uv run python -c "import shutil; import os; shutil.rmtree('dist') if os.path.exists('dist') else None"
 
-{%- if cookiecutter.mkdocs == "y" %}
 
 .PHONY: docs-test
 docs-test: ## Test if documentation can be built without warnings or errors
@@ -43,8 +38,6 @@ docs-test: ## Test if documentation can be built without warnings or errors
 .PHONY: docs
 docs: ## Build and serve the documentation
 	@uv run mkdocs serve
-
-{%- endif %}
 
 .PHONY: help
 help:

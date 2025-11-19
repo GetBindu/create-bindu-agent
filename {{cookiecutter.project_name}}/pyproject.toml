@@ -7,10 +7,10 @@ readme = "README.md"
 keywords = ['python']
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "bindu=={{cookiecutter.bindu_version}}",
+    "bindu=={{cookiecutter._bindu_version}}",
     {% if cookiecutter.agent_framework == "agno" -%}
     "agno>=2.2.0",
-    {% if cookiecutter.enable_llm_observability == "y" and cookiecutter.llm_observability_provider == "phoenix" -%}
+    {% if cookiecutter.observability_provider == "phoenix" -%}
     "openinference-instrumentation-agno==0.1.19",
     {%- endif %}
     {%- elif cookiecutter.agent_framework == "langchain" -%}
@@ -47,12 +47,12 @@ dev = [
     "pytest>=7.2.0",
     "pre-commit>=2.20.0",
     "tox-uv>=1.11.3",
-    {% if cookiecutter.type_checker == "ty" %}"ty>=0.0.1a16",{% endif %}
-    {% if cookiecutter.codecov == 'y' %}"pytest-cov>=4.0.0",{% endif %}
+    {% if cookiecutter._type_checker == "ty" %}"ty>=0.0.1a16",{% endif %}
+    "pytest-cov>=4.0.0",
     "ruff>=0.11.5",
-    {% if cookiecutter.mkdocs == 'y' %}"mkdocs>=1.4.2",
+    "mkdocs>=1.4.2",
     "mkdocs-material>=8.5.10",
-    "mkdocstrings[python]>=0.26.1",{% endif %}
+    "mkdocstrings[python]>=0.26.1",
     "types-requests>=2.31.0",
 ]
 
