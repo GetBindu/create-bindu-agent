@@ -66,4 +66,4 @@ def handler(messages: list[dict[str, str]]) -> Any:
 # Bindufy and start the agent server
 if __name__ == "__main__":
     # Bindufy and start the agent server
-    bindufy(agent, config, handler)
+    bindufy(config, handler)
