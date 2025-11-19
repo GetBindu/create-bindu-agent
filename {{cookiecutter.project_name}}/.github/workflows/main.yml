@@ -46,20 +46,16 @@ jobs:
           python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
 
       - name: Run tests
-        run: uv run python -m pytest tests {% if cookiecutter.codecov == "y" %}--cov --cov-config=pyproject.toml --cov-report=xml{%- endif %}
+        run: uv run python -m pytest tests --cov --cov-config=pyproject.toml --cov-report=xml
 
       - name: Check typing
         run: uv run ty check
 
-{% if cookiecutter.codecov == "y" %}
       - name: Upload coverage reports to Codecov with GitHub Action on Python 3.12
         uses: codecov/codecov-action@v4
         if: {% raw %}${{ matrix.python-version == '3.12' }}{% endraw %}
         env:
           {% raw %}CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}{% endraw %}
-{%- endif %}
-
-{%- if cookiecutter.mkdocs == "y" %}
 
   check-docs:
     runs-on: ubuntu-latest
@@ -72,4 +68,3 @@ jobs:
 
       - name: Check if documentation can be built
         run: uv run mkdocs build -s
-{%- endif %}

@@ -5,7 +5,6 @@ on:
     types: [published]
 
 jobs:
-{%- if cookiecutter.mkdocs == "y" %}
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
@@ -17,4 +16,3 @@ jobs:
 
       - name: Deploy documentation
         run: uv run mkdocs gh-deploy --force
-{% endif %}
