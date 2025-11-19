@@ -1,12 +1,10 @@
 {
-  "author": "Your Name",
-  "email": "your.email@example.com",
-  "author_github_handle": "your_github_handle",
+  "author": "Bindu Sunflower",
+  "email": "bindu.builder@saptha.me",
+  "author_github_handle": "bindu-wizard",
   "project_name": "my-bindu-agent",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "A Bindu AI agent for intelligent task handling",
-  "agent_version": "1.0.0",
-  "bindu_version": "0.3.20",
   "agent_framework": [
     "agno",
     "langchain",
@@ -21,99 +19,26 @@
     "n"
   ],
   "skill_names": "question-answering,pdf-processing",
-  "enable_auth": [
-    "y",
-    "n"
-  ],
   "auth_provider": [
+    "none",
     "auth0",
-    "cognito(not implemented)",
-    "azure ad(not implemented)",
-    "google(not implemented)",
-    "custom(not implemented)",
-    "none"
+    "cognito",
+    "azure-ad",
+    "google"
   ],
-  "enable_did": [
-    "y",
-    "n"
-  ],
-  "enable_pki": [
-    "y",
-    "n"
-  ],
-  "recreate_keys": [
-    "y",
-    "n"
-  ],
-  "enable_system_message": [
-    "y",
-    "n"
-  ],
-  "enable_context_based_history": [
-    "n",
-    "y"
-  ],
-  "verification_key_type": [
-    "rsa",
-    "ecdsa"
-  ],
-  "enable_telemetry": [
-    "y",
-    "n"
-  ],
-  "enable_llm_observability": [
-    "y",
-    "n"
-  ],
-  "llm_observability_provider": [
+  "observability_provider": [
+    "none",
+    "jaeger",
     "phoenix",
     "langfuse"
   ],
-  "enable_execution_cost": [
-    "n",
-    "y"
-  ],
-  "type_checker": [
-    "ty",
-    "none"
-  ],
-  "storage_type": [
-    "memory",
-    "postgres(not implemented)"
-  ],
-  "scheduler_type": [
-    "memory",
-    "redis(not implemented)"
-  ],
-  "deployment_host": "0.0.0.0",
-  "deployment_port": "3773",
-  "log_level": [
-    "info",
-    "debug",
-    "warning",
-    "error"
+  "security_features": [
+    "none",
+    "did-only",
+    "pki-only",
+    "did-and-pki"
   ],
   "include_github_actions": [
-    "y",
-    "n"
-  ],
-  "mkdocs": [
-    "y",
-    "n"
-  ],
-  "codecov": [
-    "y",
-    "n"
-  ],
-  "devcontainer": [
-    "n",
-    "y"
-  ],
-  "dockerfile": [
-    "y",
-    "n"
-  ],
-  "use_jaeger": [
     "y",
     "n"
   ],
@@ -125,12 +50,23 @@
     "GNU General Public License v3",
     "Not open source"
   ],
-  "_comment": "Internal defaults (not prompted)",
+  "_comment": "Internal defaults (not prompted to user)",
+  "_agent_version": "1.0.0",
+  "_bindu_version": "2025.47.4",
+  "_deployment_host": "0.0.0.0",
+  "_deployment_port": "3773",
+  "_log_level": "info",
+  "_storage_type": "memory",
+  "_scheduler_type": "memory",
+  "_type_checker": "ty",
+  "_enable_system_message": "y",
+  "_enable_context_based_history": "n",
+  "_include_dockerfile": "y",
+  "_verification_key_type": "rsa",
+  "_recreate_keys": "n",
+  "_enable_execution_cost": "n",
   "_telemetry_backend": "jaeger",
   "_oltp_endpoint": "http://localhost:4318/v1/traces",
   "_phoenix_endpoint": "http://localhost:6006",
-  "_langfuse_endpoint": "http://localhost:3000",
-  "_storage_type": "memory",
-  "_scheduler_type": "memory",
-  "_verification_key_type": "rsa"
+  "_langfuse_endpoint": "http://localhost:3000"
 }
