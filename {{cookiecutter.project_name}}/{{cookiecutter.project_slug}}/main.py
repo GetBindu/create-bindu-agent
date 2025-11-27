@@ -73,7 +73,7 @@ async def initialize_agent():
     global agent, model_name, mcp_tools
 
     agent = Agent(
-        name="Bindu Agent",
+        name=f"{cookiecutter.project_name} Bindu Agent",
         model=OpenRouter(id=model_name),
         tools=[mcp_tools],  # MultiMCPTools instance
         instructions=dedent("""\
