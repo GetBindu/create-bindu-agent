@@ -34,7 +34,7 @@ _init_lock = asyncio.Lock()
 
 async def initialize_mcp_tools(env: dict = None):
     """Initialize and connect to MCP servers.
-    
+
     Args:
         env: Environment variables dict for MCP servers (e.g., API keys)
     """
@@ -48,7 +48,7 @@ async def initialize_mcp_tools(env: dict = None):
         allow_partial_failure=True,  # Don't fail if one server is unavailable
         timeout_seconds=30,
     )
-    
+
     # Connect to all MCP servers
     await mcp_tools.connect()
     print("✅ Connected to MCP servers")
@@ -68,7 +68,7 @@ def load_config() -> dict:
 async def initialize_agent():
     """Initialize the agent once."""
     global agent, model_name, mcp_tools
-    
+
     agent = Agent(
         name="Bindu Agent",
         model=OpenRouter(id=model_name),
@@ -124,7 +124,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
         (msg["content"] for msg in reversed(messages) if msg["role"] == "user"),
         ""
     )
-    
+
     # Run the agent and get response
     response = await agent.arun(user_message)
     return response
@@ -157,7 +157,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
             }
             await initialize_all(env)
             _initialized = True
-    
+
     # Run the async agent
     result = await run_agent(messages)
     return result
@@ -166,7 +166,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
 
 async def initialize_all(env: dict = None):
     """Initialize MCP tools and agent.
-    
+
     Args:
         env: Environment variables dict for MCP servers
     """

@@ -19,7 +19,6 @@
     "n"
   ],
   "skill_names": "question-answering,pdf-processing",
-  "mcp_servers": "npx -y @openbnb/mcp-server-airbnb --ignore-robots-txt,npx -y @modelcontextprotocol/server-google-maps",
   "auth_provider": [
     "none",
     "auth0",
