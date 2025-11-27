@@ -1,6 +1,6 @@
 {
   "author": "Bindu Sunflower",
-  "email": "bindu.builder@saptha.me",
+  "email": "bindu.builder@getbindu.com",
   "author_github_handle": "bindu-wizard",
   "project_name": "my-bindu-agent",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
@@ -19,6 +19,7 @@
     "n"
   ],
   "skill_names": "question-answering,pdf-processing",
+  "mcp_servers": "npx -y @openbnb/mcp-server-airbnb --ignore-robots-txt,npx -y @modelcontextprotocol/server-google-maps",
   "auth_provider": [
     "none",
     "auth0",
@@ -52,7 +53,7 @@
   ],
   "_comment": "Internal defaults (not prompted to user)",
   "_agent_version": "1.0.0",
-  "_bindu_version": "2025.47.4",
+  "_bindu_version": "2025.48.4",
   "_deployment_host": "0.0.0.0",
   "_deployment_port": "3773",
   "_log_level": "info",
