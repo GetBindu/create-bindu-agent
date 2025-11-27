@@ -4,7 +4,7 @@ import os
 import shlex
 import subprocess
 
-from tests.utils import file_contains_text, is_valid_yaml, run_within_dir
+from tests.utils import is_valid_yaml, run_within_dir
 
 
 def test_bake_project(cookies):
