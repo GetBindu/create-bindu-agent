@@ -41,9 +41,12 @@ async def initialize_mcp_tools(env: dict = None):
     global mcp_tools
 
     # Initialize MultiMCPTools with all MCP server commands
-    mcp_servers = "{{ cookiecutter.mcp_servers }}".split(",")
+    # TODO: Add your MCP server commands here
     mcp_tools = MultiMCPTools(
-        commands=[cmd.strip() for cmd in mcp_servers if cmd.strip()],
+        commands=[
+            "npx -y @openbnb/mcp-server-airbnb --ignore-robots-txt",
+            "npx -y @modelcontextprotocol/server-google-maps",
+        ],
         env=env or os.environ,  # Use provided env or fall back to os.environ
         allow_partial_failure=True,  # Don't fail if one server is unavailable
         timeout_seconds=30,
@@ -153,7 +156,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
             # Build environment with API keys
             env = {
                 **os.environ,
-                "GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY", ""),
+                #"GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY", ""),
             }
             await initialize_all(env)
             _initialized = True
@@ -185,12 +188,13 @@ if __name__ == "__main__":
         help="Model ID to use (default: openai/gpt-4o-mini, env: MODEL_NAME)",
     )
 
-    parser.add_argument(
-        "--google-maps-api-key",
-        type=str,
-        default=os.getenv("GOOGLE_MAPS_API_KEY", ""),
-        help="Google Maps API key (env: GOOGLE_MAPS_API_KEY)",
-    )
+    # If we need to pass more variables to the agent (e.g., API keys, config)
+    # parser.add_argument(
+    #     "--google-maps-api-key",
+    #     type=str,
+    #     default=os.getenv("GOOGLE_MAPS_API_KEY", ""),
+    #     help="Google Maps API key (env: GOOGLE_MAPS_API_KEY)",
+    # )
     args = parser.parse_args()
 
     # Set global model name
