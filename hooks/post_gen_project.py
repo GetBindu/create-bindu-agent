@@ -2,7 +2,7 @@
 # |-----------------------------------------------------------------------|
 # |                                                                       |
 # |                       Give Feedback / Get Help                        |
-# |   https://github.com/Saptha-me/create-bindu-agent/issues/new/choose   |
+# |   https://github.com/getbindu/create-bindu-agent/issues/new/choose   |
 # |                                                                       |
 # |-----------------------------------------------------------------------|
 #

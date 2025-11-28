@@ -2,7 +2,7 @@
 name = "create-bindu-agent"
 version = "0.1.0"
 description = "A cookiecutter template for Python agent projects that use uv for dependency management"
-authors = [{ name = "raahul", email = "raahul@saptha.me" }]
+authors = [{ name = "raahul", email = "raahul@getbindu" }]
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = []

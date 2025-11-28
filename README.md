@@ -12,13 +12,13 @@
 <br/>
 
 [![GitHub License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Hits](https://hits.sh/github.com/Saptha-me/create-bindu-agent.svg)](https://hits.sh/github.com/Saptha-me/create-bindu-agent/)
-[![Main](https://github.com/Saptha-me/create-bindu-agent/actions/workflows/main.yml/badge.svg)](https://github.com/Saptha-me/create-bindu-agent/actions/workflows/main.yml)
+[![Hits](https://hits.sh/github.com/getbindu/create-bindu-agent.svg)](https://hits.sh/github.com/getbindu/create-bindu-agent/)
+[![Main](https://github.com/getbindu/create-bindu-agent/actions/workflows/main.yml/badge.svg)](https://github.com/getbindu/create-bindu-agent/actions/workflows/main.yml)
 [![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Saptha-me/create-bindu-agent/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/getbindu/create-bindu-agent/pulls)
 [![Join Discord](https://img.shields.io/badge/Join%20Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/3w5zuYUuwt)
-[![Documentation](https://img.shields.io/badge/Documentation-📕-blue)](https://docs.saptha.me)
-[![GitHub stars](https://img.shields.io/github/stars/Saptha-me/create-bindu-agent)](https://github.com/Saptha-me/create-bindu-agent/stargazers)
+[![Documentation](https://img.shields.io/badge/Documentation-📕-blue)](https://docs.getbindu)
+[![GitHub stars](https://img.shields.io/github/stars/getbindu/create-bindu-agent)](https://github.com/getbindu/create-bindu-agent/stargazers)
 
 <br/>
 
@@ -37,7 +37,7 @@ On your local machine, navigate to the directory in which you want to
 create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
+uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 ```
 
 ### What Happens Next?
@@ -95,7 +95,7 @@ uv run python -m your_agent.main  # Start your agent server
 
 **The Bindu Way**:
 ```bash
-uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
+uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 # Answer 4 prompts
 # Done. Your agent speaks A2A, AP2, and X402.
 ```
@@ -207,10 +207,10 @@ Each protocol is pre-configured in your `agent_config.json`. Your agent speaks t
 
 ## Learn More
 
-- **[Bindu Documentation](https://docs.saptha.me)** - Deep dive into Bindu's capabilities
-- **[Bindu GitHub](https://github.com/Saptha-me/Bindu)** - The core library that powers your agent
+- **[Bindu Documentation](https://docs.getbindu)** - Deep dive into Bindu's capabilities
+- **[Bindu GitHub](https://github.com/getbindu/Bindu)** - The core library that powers your agent
 - **[Join Discord](https://discord.gg/3w5zuYUuwt)** - Get help, share ideas, and connect with the community
-- **[Example Agents](https://github.com/Saptha-me/Bindu/tree/main/examples)** - See Bindu agents in action
+- **[Example Agents](https://github.com/getbindu/Bindu/tree/main/examples)** - See Bindu agents in action
 
 <br/>
 
@@ -221,7 +221,7 @@ We're entering the age of **agent swarms** — where thousands of AI agents coll
 - **Interoperable**: Works with any agent framework
 - **Standards-Compliant**: A2A, AP2, X402 protocols built-in
 - **Production-Grade**: Not a toy, not a demo — real infrastructure
-- **Community-Driven**: Join the movement at [Saptha.me](https://saptha.me)
+- **Community-Driven**: Join the movement at [getbindu](https://getbindu)
 
 <br/>
 
@@ -243,7 +243,7 @@ This project is partially based on [cookiecutter-uv](https://github.com/fpgmaas/
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Saptha-me/create-bindu-agent&type=date&legend=top-left)](https://www.star-history.com/#Saptha-me/create-bindu-agent&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=getbindu/create-bindu-agent&type=date&legend=top-left)](https://www.star-history.com/#getbindu/create-bindu-agent&type=date&legend=top-left)
 
 ---
 
@@ -258,7 +258,7 @@ This project is partially based on [cookiecutter-uv](https://github.com/fpgmaas/
 </p>
 
 <p align="center">
-  <a href="https://github.com/Saptha-me/create-bindu-agent">⭐ Star us on GitHub</a> •
+  <a href="https://github.com/getbindu/create-bindu-agent">⭐ Star us on GitHub</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
-  <a href="https://docs.saptha.me">📚 Read the Docs</a>
+  <a href="https://docs.getbindu">📚 Read the Docs</a>
 </p>

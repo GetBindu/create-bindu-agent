@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Saptha-me/create-bindu-agent/refs/heads/main/assets/light.svg" alt="bindu Logo" width="200">
+  <img src="https://raw.githubusercontent.com/getbindu/create-bindu-agent/refs/heads/main/assets/light.svg" alt="bindu Logo" width="200">
 </p>
 
 <h1 align="center"> {{cookiecutter.project_name}} 🌻</h1>
@@ -70,7 +70,7 @@ The CI/CD pipeline will be triggered when you open a pull request, merge to main
 
 # From Zero to Production-Ready Agent in 2 Minutes
 
-**[Create Bindu Agent](https://github.com/Saptha-me/create-bindu-agent/tree/main)** is the fastest way to build production-ready AI agents that speak the language of the Internet of Agents. No boilerplate. No configuration hell. Just configure and get a fully deployable agent that communicates using **A2A**, **AP2**, and **X402** protocols.
+**[Create Bindu Agent](https://github.com/getbindu/create-bindu-agent/tree/main)** is the fastest way to build production-ready AI agents that speak the language of the Internet of Agents. No boilerplate. No configuration hell. Just configure and get a fully deployable agent that communicates using **A2A**, **AP2**, and **X402** protocols.
 
 <br/>
 
@@ -82,7 +82,7 @@ On your local machine, navigate to the directory in which you want to
 create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
+uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 ```
 
 <br/>
@@ -98,7 +98,7 @@ uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
 </p>
 
 <p align="center">
-  <a href="https://github.com/Saptha-me/create-bindu-agent">⭐ Star us on GitHub</a> •
+  <a href="https://github.com/getbindu/create-bindu-agent">⭐ Star us on GitHub</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
-  <a href="https://docs.saptha.me">📚 Read the Docs</a>
+  <a href="https://docs.getbindu">📚 Read the Docs</a>
 </p>

@@ -1,10 +1,10 @@
 site_name: create-bindu-agent
-repo_url: https://github.com/saptha-me/create-bindu-agent
-site_url: https://saptha-me.github.io/create-bindu-agent
+repo_url: https://github.com/getbindu/create-bindu-agent
+site_url: https://getbindu.github.io/create-bindu-agent
 site_description: From idea to Internet of Agents in 2 minutes.
 site_author: Raahul Dutta
 edit_uri: edit/main/docs/
-repo_name: saptha-me/create-bindu-agent
+repo_name: getbindu/create-bindu-agent
 copyright: Maintained by Raahul Dutta.
 
 nav:
@@ -53,7 +53,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/saptha-me/create-bindu-agent
+      link: https://github.com/getbindu/create-bindu-agent
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/create-bindu-agent/
 markdown_extensions:

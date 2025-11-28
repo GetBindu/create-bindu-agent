@@ -44,7 +44,7 @@ This Cookiecutter template scaffolds a complete Bindu Agent project with everyth
 - **Secure**: Built-in authentication, error tracking, and monitoring
 - **Deploy Anywhere**: Your agent becomes a living server, ready to join the Internet of Agents
 
-An example of a repository generated with this package can be found [here](https://github.com/Saptha-me/create-bindu-agent-example).
+An example of a repository generated with this package can be found [here](https://github.com/getbindu/create-bindu-agent-example).
 
 ## Quickstart
 
@@ -54,7 +54,7 @@ On your local machine, navigate to the directory in which you want to
 create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/Saptha-me/create-bindu-agent.git
+uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 ```
 
 ### What Happens Next?
@@ -97,7 +97,7 @@ We 💛 contributions! Whether you're:
 - Fixing bugs
 - Sharing your Bindu agent creations
 
-Check out our [Contributing Guidelines](https://github.com/Saptha-me/create-bindu-agent/blob/main/CONTRIBUTING.md) and join us on [Discord](https://discord.gg/3w5zuYUuwt)!
+Check out our [Contributing Guidelines](https://github.com/getbindu/create-bindu-agent/blob/main/CONTRIBUTING.md) and join us on [Discord](https://discord.gg/3w5zuYUuwt)!
 
 ## Acknowledgements
 

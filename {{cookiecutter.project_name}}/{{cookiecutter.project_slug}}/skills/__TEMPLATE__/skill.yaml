@@ -27,15 +27,6 @@ examples:
   - "TODO: Add example query 2"
   - "TODO: Add example query 3"
 
-# Detailed Capabilities
-capabilities_detail:
-  main_capability:
-    supported: true
-    description: "TODO: Describe what this skill does"
-    types:
-      - type1
-      - type2
-
 # Requirements
 requirements:
   packages: []
