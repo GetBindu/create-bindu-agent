@@ -60,8 +60,7 @@ async def initialize_mcp_tools(env: dict = None):
 def load_config() -> dict:
     """Load agent configuration from project root."""
     # Get path to agent_config.json in project root
-    project_root = Path(__file__).parent.parent
-    config_path = project_root / "agent_config.json"
+    config_path = Path(__file__).parent / "agent_config.json"
 
     with open(config_path, "r") as f:
         return json.load(f)
@@ -73,7 +72,7 @@ async def initialize_agent():
     global agent, model_name, mcp_tools
 
     agent = Agent(
-        name=f"{cookiecutter.project_name} Bindu Agent",
+        name=f"{{cookiecutter.project_name}} Bindu Agent",
         model=OpenRouter(id=model_name),
         tools=[mcp_tools],  # MultiMCPTools instance
         instructions=dedent("""\
