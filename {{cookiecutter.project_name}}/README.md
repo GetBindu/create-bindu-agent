@@ -2,103 +2,211 @@
   <img src="https://raw.githubusercontent.com/getbindu/create-bindu-agent/refs/heads/main/assets/light.svg" alt="bindu Logo" width="200">
 </p>
 
-<h1 align="center"> {{cookiecutter.project_name}} 🌻</h1>
+<h1 align="center">{{cookiecutter.project_name}}</h1>
+<h3 align="center">{{cookiecutter.project_description}}</h3>
+
+<p align="center">
+  <strong>{{cookiecutter.project_description}}</strong><br/>
+  {{cookiecutter.project_description}}
+</p>
+
+<p align="center">
+  [![Build status](https://img.shields.io/github/actions/workflow/status/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/main.yml?branch=main)](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/actions/workflows/main.yml?query=branch%3Amain)
+  [![codecov](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
+  [![License](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
+</p>
+
+---
+
+## 🚀 What Makes This Special?
+
+**Stop endless scrolling.** This AI agent understands what you *actually* want:
+
+**Perfect for:** {{cookiecutter.project_description}}
+
+---
+
+## 📚 Quick Links
+
+- 📖 **[Full Documentation](https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/)**
+- 💻 **[GitHub Repository](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/)**
+- 🐛 **[Report Issues](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/issues)**
+- 💬 **[Join Discord](https://discord.gg/3w5zuYUuwt)**
 
 <br/>
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/main.yml?branch=main)](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-[![Commit activity](https://img.shields.io/github/commit-activity/m/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/commit-activity/m/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-[![License](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
+## ⚡ Quick Start (5 Minutes)
 
-<br/>
+### Prerequisites
 
-{{cookiecutter.project_description}}
+- Python 3.10+
+- [uv](https://github.com/astral-sh/uv) (fast Python package installer)
+- API keys (free tiers available)
 
-- **Github repository**: <https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/>
-- **Documentation**: <https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/>
-
-<br/>
-
-## Getting started with your project
-
-### 1. Create a New Repository
-
-First, create a repository on GitHub with the same name as this project, and then run the following commands:
+### 1️⃣ Clone & Install
 
 ```bash
-git init -b main
-git add .
-git commit -m "init commit"
-git remote add origin git@github.com:{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
-git push -u origin main
-```
+# Clone the repository
+git clone https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
+cd {{cookiecutter.project_name}}
 
-### 2. Set Up Your Development Environment
-
-Then, install the environment and the pre-commit hooks with
-
-```bash
+# Install dependencies + pre-commit hooks
 make install
 ```
 
-This will also generate your `uv.lock` file
+### 2️⃣ Configure API Keys
 
-### 3. Run the pre-commit hooks
+```bash
+# Copy environment template
+cp .env.example .env
+```
 
-Initially, the CI/CD pipeline might be failing due to formatting issues. To resolve those run:
+Edit `.env` and add your keys:
+
+| Key | Get It From | Free Tier? |
+|-----|-------------|------------|
+| `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
+| `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | ✅ Yes |
+
+### 3️⃣ Run Your Agent
+
+```bash
+# Start the agent
+make run
+
+# Or use Docker
+docker-compose up
+```
+
+**That's it!** 🎉 Your AI travel agent is live.
+
+---
+
+## 💡 Usage Examples
+
+Try these queries:
+
+```python
+# Natural language search
+{{cookiecutter.project_description}}
+```
+
+---
+
+## 🛠️ Development Setup
+
+### Running Tests
+
+```bash
+make test              # Run all tests
+make test-cov          # With coverage report
+```
+
+### Code Quality
+
+```bash
+make format            # Format code
+make lint              # Run linters
+make check             # Format + lint + test
+```
+
+### Pre-commit Hooks
+
+Fix formatting issues before committing:
 
 ```bash
 uv run pre-commit run -a
 ```
 
-### 4. Commit the changes
+---
 
-Lastly, commit the changes made by the two steps above to your repository.
+## 🐳 Docker Deployment
+
+### Local Docker
 
 ```bash
-git add .
-git commit -m 'Fix formatting issues'
-git push origin main
+# Build and run
+docker-compose up --build
+
+# Production mode
+docker-compose -f docker-compose.prod.yml up
 ```
 
-You are now ready to start development on your project!
-The CI/CD pipeline will be triggered when you open a pull request, merge to main, or when you create a new release.
+### Docker Hub Auto-Deploy
+
+Enable automatic Docker image publishing:
+
+1. Go to **Settings → Secrets → Actions**
+2. Add secret: `DOCKERHUB_TOKEN` (get from [Docker Hub](https://hub.docker.com/settings/security))
+3. Push to `main` → Image auto-builds and publishes 🚀
+
+---
+
+## 🏗️ Project Structure
+
+```
+{{cookiecutter.project_name}}/
+├── {{cookiecutter.project_slug}}/    # Main agent code
+│   ├── skills/             # Agent capabilities
+│   │   └── {{cookiecutter.project_slug}}/ # {{cookiecutter.project_name}} skill
+│   └── __init__.py
+├── tests/                  # Test suite
+├── docs/                   # Documentation
+├── .env.example            # Environment template
+├── docker-compose.yml      # Docker setup
+└── pyproject.toml          # Dependencies
+```
 
 
 <br/>
 
-# From Zero to Production-Ready Agent in 2 Minutes
+## 🌟 Contributing
 
-**[Create Bindu Agent](https://github.com/getbindu/create-bindu-agent/tree/main)** is the fastest way to build production-ready AI agents that speak the language of the Internet of Agents. No boilerplate. No configuration hell. Just configure and get a fully deployable agent that communicates using **A2A**, **AP2**, and **X402** protocols.
+We love contributions! Here's how to get started:
 
-<br/>
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Commit** your changes: `git commit -m 'Add amazing feature'`
+4. **Push** to the branch: `git push origin feature/amazing-feature`
+5. **Open** a Pull Request
 
-## Quickstart
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-**Time to first agent: ~2 minutes** ⏱️
+---
 
-On your local machine, navigate to the directory in which you want to
-create a project directory, and run the following command:
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+**Built with [Bindu Agent Framework](https://github.com/getbindu/bindu)**
+
+- 🌐 **A2A, AP2, X402 protocols** for Internet of Agents communication
+- ⚡ **Zero-config setup** - from idea to production in minutes
+- 🛠️ **Production-ready** out of the box
+
+### Want to Build Your Own Agent?
 
 ```bash
+# Create a new agent in 2 minutes
 uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 ```
 
-<br/>
+---
 
 <p align="center">
-  <strong>Built with 💛 by the team from Amsterdam 🌷</strong><br/>
-  <em>Happy Bindu! 🌻🚀✨</em>
+  <strong>Built with 💛 by the team from Amsterdam 🌷</strong>
 </p>
 
 <p align="center">
-  <strong>From idea to Internet of Agents in 2 minutes.</strong><br/>
-  <em>Your agent. Your framework. Universal protocols.</em>
-</p>
-
-<p align="center">
-  <a href="https://github.com/getbindu/create-bindu-agent">⭐ Star us on GitHub</a> •
+  <a href="https://github.com/raahulrahl/airbnb-travel-agent">⭐ Star this repo</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
-  <a href="https://docs.getbindu">📚 Read the Docs</a>
+  <a href="https://docs.getbindu.com">📚 Bindu Docs</a>
+</p>
+
+<p align="center">
+  <em>From idea to Internet of Agents in minutes. 🌻🚀✨</em>
 </p>
