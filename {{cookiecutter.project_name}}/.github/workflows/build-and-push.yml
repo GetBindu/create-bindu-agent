@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ "{{" }} github.workflow {{ "}}" }}-${{ "{{" }} github.ref {{ "}}" }}
   cancel-in-progress: false
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: {{cookiecutter.author_github_handle}}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ "{{" }} secrets.DOCKERHUB_TOKEN {{ "}}" }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
