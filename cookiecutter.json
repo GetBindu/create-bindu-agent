@@ -52,7 +52,7 @@
   ],
   "_comment": "Internal defaults (not prompted to user)",
   "_agent_version": "1.0.0",
-  "_bindu_version": "2025.48.6.1",
+  "_bindu_version": "2025.49.3",
   "_deployment_host": "0.0.0.0",
   "_deployment_port": "3773",
   "_log_level": "info",
