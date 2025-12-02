@@ -1,7 +1,14 @@
-"""
-{{ cookiecutter.project_description }}
+# |---------------------------------------------------------|
+# |                                                         |
+# |                 Give Feedback / Get Help                |
+# | https://github.com/getbindu/Bindu/issues/new/choose    |
+# |                                                         |
+# |---------------------------------------------------------|
+#
+#  Thank you users! We ❤️ you! - 🌻
 
-Bindu Agent Entry Point
+"""{{cookiecutter.project_name}} - An Bindu Agent.
+
 """
 
 import argparse
@@ -16,18 +23,25 @@ from typing import Any
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MultiMCPTools
+from agno.tools.mem0 import Mem0Tools
 {% elif cookiecutter.agent_framework == "fastagent" %}
 import asyncio
 from fast_agent.core.fastagent import FastAgent
 {% endif %}
 
 from bindu.penguin.bindufy import bindufy
+from dotenv import load_dotenv
 
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Global MCP tools instances
-mcp_tools = None  # MultiMCPTools instance
-agent = None
-model_name = None
+mcp_tools: MultiMCPTools | None = None
+agent: Agent | None = None
+model_name: str | None = None
+api_key: str | None = None
+mem0_api_key: str | None = None
 _initialized = False
 _init_lock = asyncio.Lock()
 
@@ -74,7 +88,7 @@ async def initialize_agent():
     agent = Agent(
         name=f"{{cookiecutter.project_name}} Bindu Agent",
         model=OpenRouter(id=model_name),
-        tools=[mcp_tools],  # MultiMCPTools instance
+        tools=[mcp_tools, Mem0Tools(api_key=mem0_api_key)],  # MultiMCPTools instance
         instructions=dedent("""\
             You are a helpful AI assistant with access to multiple capabilities including:
             - Airbnb search for accommodations and listings
@@ -176,29 +190,45 @@ async def initialize_all(env: dict = None):
     await initialize_agent()
 
 
-# Bindufy and start the agent server
-if __name__ == "__main__":
+def main():
+    """Main entry point for the Airbnb Travel Agent."""
+    global model_name, api_key, mem0_api_key
+
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Bindu Agent with MCP Tools")
     parser.add_argument(
         "--model",
         type=str,
-        default=os.getenv("MODEL_NAME", "openai/gpt-4o-mini"),
-        help="Model ID to use (default: openai/gpt-4o-mini, env: MODEL_NAME)",
+        default=os.getenv("MODEL_NAME", "openai/gpt-5-mini"),
+        help="Model ID to use (default: openai/gpt-5-mini, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
     )
 
-    # If we need to pass more variables to the agent (e.g., API keys, config)
-    # parser.add_argument(
-    #     "--google-maps-api-key",
-    #     type=str,
-    #     default=os.getenv("GOOGLE_MAPS_API_KEY", ""),
-    #     help="Google Maps API key (env: GOOGLE_MAPS_API_KEY)",
-    # )
+    parser.add_argument(
+        "--api-key",
+        type=str,
+        default=os.getenv("OPENROUTER_API_KEY"),
+        help="OpenRouter API key (env: OPENROUTER_API_KEY)",
+    )
+    parser.add_argument(
+        "--mem0-api-key",
+        type=str,
+        default=os.getenv("MEM0_API_KEY"),
+        help="Mem0 API key (env: MEM0_API_KEY)",
+    )
     args = parser.parse_args()
 
-    # Set global model name
+    # Set global model name and API keys
     model_name = args.model
+    api_key = args.api_key
+    mem0_api_key = args.mem0_api_key
+
+    if not api_key:
+        raise ValueError("OPENROUTER_API_KEY required")
+    if not mem0_api_key:
+        raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys")
+
     print(f"🤖 Using model: {model_name}")
+    print("🧠 Mem0 memory enabled")
 
     # Load configuration
     config = load_config()
@@ -212,3 +242,8 @@ if __name__ == "__main__":
         # Cleanup on exit
         print("\n🧹 Cleaning up...")
         asyncio.run(cleanup_mcp_tools())
+
+
+# Bindufy and start the agent server
+if __name__ == "__main__":
+    main()

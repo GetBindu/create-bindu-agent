@@ -14,10 +14,8 @@
     {% else %}
     "skills": [],
     {% endif %}
-
     "capabilities": {
     },
-
     {% if cookiecutter._enable_execution_cost == "y" %}
     "execution_cost": {
         "amount": "$0.0001",
@@ -31,10 +29,8 @@
     {% endif %}
 
     "agent_trust": "low",
-
     "debug_mode": true,
     "debug_level": 2,
-
     {% if cookiecutter.auth_provider != "none" %}
     "auth": {
         "enabled": true,
@@ -63,7 +59,6 @@
         }
     },
     {% endif %}
-
     "deployment": {
         "url": "http://{{ cookiecutter._deployment_host }}:{{ cookiecutter._deployment_port }}",
         "expose": true,
@@ -71,11 +66,9 @@
         "proxy_urls": ["{{ cookiecutter._deployment_host }}"],
         "cors_origins": ["*"]
     },
-
     "storage": {
       "type": "{{ cookiecutter._storage_type }}"
     },
-
     "scheduler": {
       "type": "{{ cookiecutter._scheduler_type }}"
     },
