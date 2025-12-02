@@ -26,7 +26,7 @@ COPY README.md /app/
 RUN uv sync --frozen --no-dev
 
 # ---------- Runtime stage ----------
-FROM {{cookiecutter.author_github_handle}}/bindu-runtime-base:latest
+FROM raahulrahl/bindu-runtime-base:latest
 
 # OCI labels
 LABEL org.opencontainers.image.title="{{cookiecutter.project_name}}"
