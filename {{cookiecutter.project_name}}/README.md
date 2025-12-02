@@ -202,7 +202,7 @@ uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 </p>
 
 <p align="center">
-  <a href="https://github.com/raahulrahl/airbnb-travel-agent">⭐ Star this repo</a> •
+  <a href="https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}">⭐ Star this repo</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
   <a href="https://docs.getbindu.com">📚 Bindu Docs</a>
 </p>

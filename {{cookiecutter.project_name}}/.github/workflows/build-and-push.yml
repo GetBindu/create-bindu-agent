@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'Dockerfile.agent'
-      - 'airbnb_travel_agent/**'
+      - '{{ cookiecutter.project_slug }}/**'
       - 'pyproject.toml'
       - 'uv.lock'
       - '.version'
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: {% raw %}${{ github.workflow }}-${{ github.ref }}{% endraw %}
   cancel-in-progress: false
 
 jobs:
@@ -29,8 +29,8 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: raahulrahl
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: {{ cookiecutter.author_github_handle }}
+          password: {% raw %}${{ secrets.DOCKERHUB_TOKEN }}{% endraw %}
 
       - name: Build and push
         id: docker_build
@@ -40,19 +40,19 @@ jobs:
           file: ./Dockerfile.agent
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: raahulrahl/airbnb-travel-agent:latest
-          cache-from: type=registry,ref=raahulrahl/airbnb-travel-agent:buildcache
-          cache-to: type=registry,ref=raahulrahl/airbnb-travel-agent:buildcache,mode=max
+          tags: {{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest
+          cache-from: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache
+          cache-to: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache,mode=max
 
       - name: Read agent config
         id: agent_config
         run: |
-          echo "config=$(cat airbnb_travel_agent/agent_config.json | jq -c .)" >> $GITHUB_OUTPUT
+          echo "config=$(cat {{ cookiecutter.project_slug }}/agent_config.json | jq -c .)" >> $GITHUB_OUTPUT
           echo "version=$(cat .version | tr -d '\n')" >> $GITHUB_OUTPUT
           
           # Read all skills from the skills folder
           skills_array="[]"
-          for skill_dir in airbnb_travel_agent/skills/*/; do
+          for skill_dir in {{ cookiecutter.project_slug }}/skills/*/; do
             if [ -f "${skill_dir}skill.yaml" ]; then
               skill_json=$(cat "${skill_dir}skill.yaml" | yq -o=json -c .)
               skills_array=$(echo "$skills_array" | jq --argjson skill "$skill_json" '. += [$skill]')
@@ -64,35 +64,35 @@ jobs:
         run: |
           curl --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'Content-Type: application/json' \
-            --header 'Authorization: Bearer ${{ secrets.BINDU_SECRET_TOKEN }}' \
+            --header 'Authorization: Bearer {% raw %}${{ secrets.BINDU_SECRET_TOKEN }}{% endraw %}' \
             --data '{
               "agent": {
-                "name": "${{ fromJson(steps.agent_config.outputs.config).name }}",
-                "author": "${{ fromJson(steps.agent_config.outputs.config).author }}",
-                "description": "${{ fromJson(steps.agent_config.outputs.config).description }}",
-                "version": "${{ steps.agent_config.outputs.version }}",
-                "agent_trust": "${{ fromJson(steps.agent_config.outputs.config).agent_trust }}"
+                "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
+                "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
+                "description": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).description }}{% endraw %}",
+                "version": "{% raw %}${{ steps.agent_config.outputs.version }}{% endraw %}",
+                "agent_trust": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).agent_trust }}{% endraw %}"
               },
-              "skills": ${{ toJson(fromJson(steps.agent_config.outputs.config).skills) }},
-              "skill_details": ${{ toJson(fromJson(steps.agent_config.outputs.skills)) }},
+              "skills": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).skills) }}{% endraw %},
+              "skill_details": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.skills)) }}{% endraw %},
               "deployment": {
-                "url": "${{ fromJson(steps.agent_config.outputs.config).deployment.url }}",
-                "protocol_version": "${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}",
-                "docker_image": "raahulrahl/airbnb-travel-agent:latest",
-                "docker_digest": "${{ steps.docker_build.outputs.digest }}",
+                "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
+                "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",
+                "docker_image": "{{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest",
+                "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
                 "platforms": ["linux/amd64", "linux/arm64"]
               },
               "repository": {
-                "url": "https://github.com/${{ github.repository }}",
-                "commit_sha": "${{ github.sha }}",
-                "build_number": "${{ github.run_number }}"
+                "url": "https://github.com/{% raw %}${{ github.repository }}{% endraw %}",
+                "commit_sha": "{% raw %}${{ github.sha }}{% endraw %}",
+                "build_number": "{% raw %}${{ github.run_number }}{% endraw %}"
               },
               "metadata": {
-                "documentation_url": "https://raahulrahl.github.io/airbnb-travel-agent/",
+                "documentation_url": "https://{{ cookiecutter.author_github_handle }}.github.io/{{ cookiecutter.project_name }}/",
                 "domain": "travel",
                 "specialization": "accommodation_booking",
-                "last_updated": "${{ github.event.head_commit.timestamp }}"
+                "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
               },
-              "execution_cost": ${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }},
-              "auth": ${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }}
+              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }}{% endraw %},
+              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }}{% endraw %}
             }'
