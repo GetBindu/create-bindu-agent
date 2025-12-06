@@ -63,36 +63,42 @@ jobs:
       - name: Log to backend service
         run: |
           curl --location 'https://bindus.getbindu.com/bindu-register' \
+            --header 'accept: application/json' \
+            --header 'X-API-Token: ${{ secrets.BINDU_API_TOKEN }}' \
             --header 'Content-Type: application/json' \
-            --header 'Authorization: Bearer {% raw %}${{ secrets.BINDU_SECRET_TOKEN }}{% endraw %}' \
-            --data '{
+            --data-raw '{
               "agent": {
-                "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
-                "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
-                "description": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).description }}{% endraw %}",
-                "version": "{% raw %}${{ steps.agent_config.outputs.version }}{% endraw %}",
-                "agent_trust": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).agent_trust }}{% endraw %}"
+                "name": "${{ fromJson(steps.agent_config.outputs.config).name }}",
+                "author": "${{ fromJson(steps.agent_config.outputs.config).author }}",
+                "description": "${{ fromJson(steps.agent_config.outputs.config).description }}",
+                "version": "${{ steps.agent_config.outputs.version }}",
+                "agent_trust": "${{ fromJson(steps.agent_config.outputs.config).agent_trust }}",
+                "type": "research"
               },
-              "skills": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).skills) }}{% endraw %},
-              "skill_details": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.skills)) }}{% endraw %},
+              "skills": ${{ toJson(fromJson(steps.agent_config.outputs.skills)) }},
+              "framework": {
+                "name": "{{ cookiecutter.agent_framework }}",
+                "version": "{{ cookiecutter._agent_version }}"
+              },
+              "environment_variables": ${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }},
+              "execution_cost": ${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }},
+              "auth": ${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }},
               "deployment": {
-                "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
-                "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",
+                "url": "${{ fromJson(steps.agent_config.outputs.config).deployment.url }}",
+                "protocol_version": "${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}",
                 "docker_image": "{{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest",
-                "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
+                "docker_digest": "${{ steps.docker_build.outputs.digest }}",
                 "platforms": ["linux/amd64", "linux/arm64"]
               },
               "repository": {
-                "url": "https://github.com/{% raw %}${{ github.repository }}{% endraw %}",
-                "commit_sha": "{% raw %}${{ github.sha }}{% endraw %}",
-                "build_number": "{% raw %}${{ github.run_number }}{% endraw %}"
+                "url": "https://github.com/${{ github.repository }}",
+                "commit_sha": "${{ github.sha }}",
+                "build_number": "${{ github.run_number }}"
               },
               "metadata": {
                 "documentation_url": "https://{{ cookiecutter.author_github_handle }}.github.io/{{ cookiecutter.project_name }}/",
-                "domain": "travel",
-                "specialization": "accommodation_booking",
-                "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
-              },
-              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }}{% endraw %},
-              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }}{% endraw %}
+                "domain": "${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}",
+                "specialization": "${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}",
+                "last_updated": "${{ github.event.head_commit.timestamp }}"
+              }
             }'
