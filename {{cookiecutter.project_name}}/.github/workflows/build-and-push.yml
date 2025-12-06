@@ -97,8 +97,8 @@ jobs:
               },
               "metadata": {
                 "documentation_url": "https://{{ cookiecutter.author_github_handle }}.github.io/{{ cookiecutter.project_name }}/",
-                "domain": "${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}",
-                "specialization": "${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}",
-                "last_updated": "${{ github.event.head_commit.timestamp }}"
+                "domain": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}{% endraw %}",
+                "specialization": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}{% endraw %}",
+                "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
               }
             }'
