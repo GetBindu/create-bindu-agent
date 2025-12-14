@@ -47,29 +47,30 @@
 
 <br/>
 
-## ⚡ Quick Start (5 Minutes)
+## ⚡ Quick Start - Deploy to bindus.directory in 5 Minutes
+
+This guide will help you deploy your agent to [bindus.directory](https://bindus.directory) where it becomes discoverable worldwide and can collaborate with other agents. **GitHub Actions will automatically build, containerize, and register your agent.**
 
 ### Prerequisites
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv) (fast Python package installer)
-- API keys (free tiers available)
+- [GitHub CLI](https://cli.github.com/) (`gh`)
+- GitHub account
+- Docker Hub account (free)
 
-### 1️⃣ Install First
+---
+
+### 1️⃣ Local Setup & Configuration
 
 ```bash
-
-# Clone the repository
+# Clone and setup the project
 cd {{cookiecutter.project_name}}
 uv venv --python 3.12.9
 source .venv/bin/activate
 uv sync
-```
 
-### 2️⃣ Configure API Keys
-
-```bash
-# Copy environment template
+# Configure API keys
 cp .env.example .env
 ```
 
@@ -80,19 +81,76 @@ Edit `.env` and add your keys:
 | `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
 | `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | ✅ Yes |
 
-### 3️⃣ Create the git and the first commit
+---
+
+### 2️⃣ Setup GitHub Authentication
+
+Authenticate with GitHub CLI:
+
+```bash
+# Check if you're already logged in
+gh auth status
+
+# If not logged in, authenticate with GitHub
+gh auth login
+```
+
+Follow the prompts:
+1. Select **GitHub.com**
+2. Choose **SSH** as your preferred protocol
+3. Authenticate via your browser or token
+
+---
+
+### 3️⃣ Create GitHub Repository
 
 ```bash
 git init -b main
 git add .
-git commit -m "Init commit"
+git commit -m "Initial commit"
 git remote add origin git@github.com:<github_author_handle>/<project_name>.git
 git push -u origin main
 ```
 
-if you 
+---
 
-**That's it!** 🎉 Your AI travel agent is live.
+### 4️⃣ Register on bindus.directory
+
+1. **Login** to [bindus.directory](https://bindus.directory)
+2. **Grab your API key** from the dashboard
+3. **Get Docker Hub token** from [Docker Hub Security Settings](https://hub.docker.com/settings/security)
+
+---
+
+### 5️⃣ Configure GitHub Secrets for Auto-Deployment
+
+Set up secrets so GitHub Actions can automatically deploy your agent:
+
+![GitHub Secrets Setup](../assets/git_secret.png)
+
+```bash
+gh secret set BINDU_API_TOKEN --body "<your-bindus-api-key>"
+gh secret set DOCKERHUB_TOKEN --body "<your-dockerhub-token>"
+```
+
+---
+
+### 6️⃣ Deploy! 🚀
+
+**Push to trigger automatic deployment:**
+
+```bash
+git push origin main
+```
+
+**What happens automatically:**
+1. ✅ GitHub Actions builds your agent
+2. ✅ Creates a Docker container
+3. ✅ Pushes to Docker Hub
+4. ✅ Registers on bindus.directory
+5. ✅ Your agent is now live and discoverable!
+
+**That's it!** 🎉 Your agent is now part of the Internet of Agents.
 
 ---
 
