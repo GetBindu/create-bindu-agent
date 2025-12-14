@@ -18,11 +18,16 @@
 
 ---
 
-## 🚀 What Makes This Special?
+## 💡 Why This Exists
 
 **Stop endless scrolling.** This AI agent understands what you *actually* want:
 
 **Perfect for:** {{cookiecutter.project_description}}
+
+---
+
+> **🌐 Join the Internet of Agents**  
+> Register your agent at [bindus.directory](https://bindus.directory) to make it discoverable worldwide and enable agent-to-agent collaboration. **It takes 2 minutes and unlocks the full potential of your agent.**
 
 ---
 
@@ -32,6 +37,7 @@
 - 💻 **[GitHub Repository](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/)**
 - 🐛 **[Report Issues](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/issues)**
 - 💬 **[Join Discord](https://discord.gg/3w5zuYUuwt)**
+- 🌐 **[Agent Directory](https://bindus.directory)**
 
 <br/>
 
@@ -43,15 +49,15 @@
 - [uv](https://github.com/astral-sh/uv) (fast Python package installer)
 - API keys (free tiers available)
 
-### 1️⃣ Clone & Install
+### 1️⃣ Install First
 
 ```bash
-# Clone the repository
-git clone https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
-cd {{cookiecutter.project_name}}
 
-# Install dependencies + pre-commit hooks
-make install
+# Clone the repository
+cd {{cookiecutter.project_name}}
+uv venv --python 3.12.9
+source .venv/bin/activate
+uv sync
 ```
 
 ### 2️⃣ Configure API Keys
@@ -68,14 +74,14 @@ Edit `.env` and add your keys:
 | `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
 | `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | ✅ Yes |
 
-### 3️⃣ Run Your Agent
+### 3️⃣ Create the git and the first commit
 
 ```bash
-# Start the agent
-make run
-
-# Or use Docker
-docker-compose up
+git init -b main
+git add .
+git commit -m "Init commit"
+git remote add origin git@github.com:<github_author_handle>/<project_name>.git
+git push -u origin main
 ```
 
 **That's it!** 🎉 Your AI travel agent is live.
