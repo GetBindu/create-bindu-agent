@@ -46,7 +46,7 @@ _initialized = False
 _init_lock = asyncio.Lock()
 
 
-async def initialize_mcp_tools(env: dict = None):
+async def initialize_mcp_tools(env: dict[str, str] | None = None) -> None:
     """Initialize and connect to MCP servers.
 
     Args:
@@ -81,7 +81,7 @@ def load_config() -> dict:
 
 {% if cookiecutter.agent_framework == "agno" %}
 # Create the agent instance
-async def initialize_agent():
+async def initialize_agent() -> None:
     """Initialize the agent once."""
     global agent, model_name, mcp_tools
 
@@ -112,7 +112,7 @@ async def initialize_agent():
     print("✅ Agent initialized")
 
 
-async def cleanup_mcp_tools():
+async def cleanup_mcp_tools()-> None:
     """Close all MCP server connections."""
     global mcp_tools
 
@@ -135,14 +135,8 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     """
     global agent
 
-    # Extract the last user message for the agent
-    user_message = next(
-        (msg["content"] for msg in reversed(messages) if msg["role"] == "user"),
-        ""
-    )
-
     # Run the agent and get response
-    response = await agent.arun(user_message)
+    response = await agent.arun(messages)
     return response
 
 {% endif %}
@@ -223,9 +217,9 @@ def main():
     mem0_api_key = args.mem0_api_key
 
     if not api_key:
-        raise ValueError("OPENROUTER_API_KEY required")
+        raise ValueError("OPENROUTER_API_KEY required") # noqa: TRY003
     if not mem0_api_key:
-        raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys")
+        raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys") # noqa: TRY003
 
     print(f"🤖 Using model: {model_name}")
     print("🧠 Mem0 memory enabled")

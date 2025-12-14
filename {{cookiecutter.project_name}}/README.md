@@ -11,9 +11,15 @@
 </p>
 
 <p align="center">
-  [![Build status](https://img.shields.io/github/actions/workflow/status/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/main.yml?branch=main)](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/actions/workflows/main.yml?query=branch%3Amain)
-  [![codecov](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-  [![License](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
+  <a href="https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/actions/workflows/main.yml?query=branch%3Amain">
+    <img src="https://img.shields.io/github/actions/workflow/status/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/main.yml?branch=main" alt="Build status">
+  </a>
+  <a href="https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}">
+    <img src="https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/branch/main/graph/badge.svg" alt="codecov">
+  </a>
+  <a href="https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}">
+    <img src="https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}" alt="License">
+  </a>
 </p>
 
 ---
@@ -83,6 +89,8 @@ git commit -m "Init commit"
 git remote add origin git@github.com:<github_author_handle>/<project_name>.git
 git push -u origin main
 ```
+
+if you 
 
 **That's it!** 🎉 Your AI travel agent is live.
 

@@ -64,6 +64,7 @@ jobs:
         run: |
           curl --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
+            --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: {% raw %}${{ secrets.BINDU_API_TOKEN }}{% endraw %}' \
             --header 'Content-Type: application/json' \
             --data-raw '{
@@ -81,8 +82,8 @@ jobs:
                 "version": "{{ cookiecutter._agent_version }}"
               },
               "environment_variables": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }}{% endraw %},
-              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }}{% endraw %},
-              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }}{% endraw %},
+              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost || fromJson('{}')) }}{% endraw %},
+              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth || fromJson('{}')) }}{% endraw %},
               "deployment": {
                 "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
                 "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",

@@ -93,5 +93,17 @@
       "endpoint": "{% if cookiecutter.observability_provider == 'phoenix' %}http://phoenix:6006{% elif cookiecutter.observability_provider == 'langfuse' %}http://langfuse:3000{% else %}http://jaeger:4318{% endif %}"
     },
     {% endif %}
-    "num_history_sessions": 5
+    "num_history_sessions": 5,
+    "environment_variables": [
+      {
+        "key": "OPENROUTER_API_KEY",
+        "description": "OpenRouter API key for LLM calls",
+        "required": true
+      },
+      {
+        "key": "MEM0_API_KEY",
+        "description": "Mem0 API key for memory operations",
+        "required": true
+      }
+    ]
   }
