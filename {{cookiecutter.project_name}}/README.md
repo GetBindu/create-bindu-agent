@@ -104,13 +104,22 @@ Follow the prompts:
 
 ### 3️⃣ Create GitHub Repository
 
-```bash
+# Initialize git repository and commit your code
 git init -b main
 git add .
 git commit -m "Initial commit"
-git remote add origin git@github.com:<github_author_handle>/<project_name>.git
-git push -u origin main
+
+# Create repository on GitHub and push (replace with your GitHub username)
+gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}} --public --source=. --remote=origin --push
 ```
+
+**Alternative: Manual creation**
+1. Create repository at https://github.com/new
+2. Don't initialize with README (you already have one)
+3. Then run:
+```bash
+git remote add origin https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
+git push -u origin main
 
 ---
 
