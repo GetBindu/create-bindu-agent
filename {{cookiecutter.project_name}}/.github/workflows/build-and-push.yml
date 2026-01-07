@@ -29,7 +29,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: {{ cookiecutter.author_github_handle }}
+          username: {{ cookiecutter.dockerhub_username }}
           password: {% raw %}${{ secrets.DOCKERHUB_TOKEN }}{% endraw %}
 
       - name: Build and push
@@ -40,9 +40,9 @@ jobs:
           file: ./Dockerfile.agent
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: {{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest
-          cache-from: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache
-          cache-to: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache,mode=max
+          tags: {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest
+          cache-from: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache
+          cache-to: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache,mode=max
 
       - name: Read agent config
         id: agent_config
@@ -87,7 +87,7 @@ jobs:
               "deployment": {
                 "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
                 "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",
-                "docker_image": "{{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest",
+                "docker_image": "{{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest",
                 "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
                 "platforms": ["linux/amd64", "linux/arm64"]
               },
