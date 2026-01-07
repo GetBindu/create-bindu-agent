@@ -2,6 +2,7 @@
   "author": "Bindu Sunflower",
   "email": "bindu.builder@getbindu.com",
   "author_github_handle": "bindu-wizard",
+  "dockerhub_username": "{{cookiecutter.author_github_handle}}",
   "project_name": "my-bindu-agent",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "A Bindu AI agent for intelligent task handling",
@@ -27,24 +28,24 @@
     "google"
   ],
   "observability_provider": [
+    "none",
     "phoenix",
     "jaeger",
-    "langfuse",
-    "none"
+    "langfuse"
   ],
   "security_features": [
+    "none",
     "did-and-pki",
     "did-only",
-    "pki-only",
-    "none"
+    "pki-only"
   ],
   "include_github_actions": [
     "y",
     "n"
   ],
   "open_source_license": [
-    "MIT license",
     "Apache Software License 2.0",
+    "MIT license",
     "BSD license",
     "ISC license",
     "GNU General Public License v3",

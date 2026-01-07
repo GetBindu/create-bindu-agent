@@ -18,17 +18,17 @@ def test_full_structure(cookies, tmp_path):
         ".gitignore",
         ".pre-commit-config.yaml",
         "CONTRIBUTING.md",
-        "Dockerfile",
+        "Dockerfile.agent",
         "docker-compose.yml",
-        "LICENSE",  # Renamed from LICENSE_MIT by post-gen hook
+        "LICENSE",  # Renamed from LICENSE_APACHE by post-gen hook (Apache is default)
         "Makefile",
         "README.md",
-        "agent_config.json",
         "get_auth0_token.py",
         "mkdocs.yml",
         "pyproject.toml",
         "tests",
         "my_bindu_agent",  # project slug
+        "my_bindu_agent/agent_config.json",  # agent config inside project slug
         "docs",
         "codecov.yaml",
     ]
