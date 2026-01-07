@@ -17,7 +17,7 @@ import json
 import os
 from pathlib import Path
 from textwrap import dedent
-from typing import Any
+from typing import Any, Optional
 
 {% if cookiecutter.agent_framework == "agno" %}
 from agno.agent import Agent
@@ -61,7 +61,7 @@ async def initialize_mcp_tools(env: dict[str, str] | None = None) -> None:
             "npx -y @openbnb/mcp-server-airbnb --ignore-robots-txt",
             "npx -y @modelcontextprotocol/server-google-maps",
         ],
-        env=env or os.environ,  # Use provided env or fall back to os.environ
+        env=env or dict(os.environ),  # Use provided env or fall back to os.environ
         allow_partial_failure=True,  # Don't fail if one server is unavailable
         timeout_seconds=30,
     )
@@ -85,10 +85,14 @@ async def initialize_agent() -> None:
     """Initialize the agent once."""
     global agent, model_name, mcp_tools
 
+    if not model_name:
+        msg = "model_name must be set before initializing agent"
+        raise ValueError(msg)
+
     agent = Agent(
         name=f"{{cookiecutter.project_name}} Bindu Agent",
         model=OpenRouter(id=model_name),
-        tools=[mcp_tools, Mem0Tools(api_key=mem0_api_key)],  # MultiMCPTools instance
+        tools=[tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key)] if tool is not None],  # MultiMCPTools instance
         instructions=dedent("""\
             You are a helpful AI assistant with access to multiple capabilities including:
             - Airbnb search for accommodations and listings
@@ -174,7 +178,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
     {% endif %}
 
 
-async def initialize_all(env: dict = None):
+async def initialize_all(env: Optional[dict[str, str]] = None):
     """Initialize MCP tools and agent.
 
     Args:
