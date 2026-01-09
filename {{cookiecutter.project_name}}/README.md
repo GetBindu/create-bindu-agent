@@ -104,12 +104,17 @@ Follow the prompts:
 
 ### 3️⃣ Create GitHub Repository
 
-# Initialize git repository and commit your code
+#### Initialize git repository and commit your code
+
+```bash
 git init -b main
 git add .
 git commit -m "Initial commit"
+```
 
-# Create repository on GitHub and push (replace with your GitHub username)
+#### Create repository on GitHub and push
+
+```bash
 gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}} --public --source=. --remote=origin --push
 ```
 
@@ -120,6 +125,7 @@ gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name
 ```bash
 git remote add origin https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
 git push -u origin main
+```
 
 ---
 
@@ -135,7 +141,7 @@ git push -u origin main
 
 Set up secrets so GitHub Actions can automatically deploy your agent:
 
-![GitHub Secrets Setup](../assets/git_secret.png)
+#### GitHub Secrets Setup
 
 ```bash
 gh secret set BINDU_API_TOKEN --body "<your-bindus-api-key>"
