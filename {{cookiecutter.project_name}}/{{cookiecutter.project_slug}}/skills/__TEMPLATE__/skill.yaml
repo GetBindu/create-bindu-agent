@@ -6,7 +6,7 @@ author: {{ cookiecutter.email }}
 # Description
 description: |
   Description of the __SKILL_NAME__ skill.
-  TODO: Update this description with your skill's purpose.
+  TODO: Update this description with your skill's purpose and capabilities.
 
 # Tags and Modes
 tags:
@@ -27,10 +27,27 @@ examples:
   - "TODO: Add example query 2"
   - "TODO: Add example query 3"
 
+# Detailed Capabilities
+capabilities_detail:
+  primary_capability:
+    supported: true
+    description: "TODO: Describe your primary capability"
+    features:
+      - "TODO: Feature 1"
+      - "TODO: Feature 2"
+    limitations: "TODO: List any limitations"
+
+  secondary_capability:
+    supported: false
+    planned_version: "TODO: Future version"
+    description: "TODO: Planned feature description"
+
 # Requirements
 requirements:
-  packages: []
-  system: []
+  packages:
+    - "TODO: Add required Python packages"
+  system:
+    - "TODO: Add system dependencies if any"
   min_memory_mb: 256
 
 # Performance Metrics
@@ -45,3 +62,163 @@ allowed_tools:
   - Read
   - Write
   - Execute
+
+# Rich Documentation
+documentation:
+  overview: |
+    TODO: Provide a comprehensive overview of your skill.
+    Describe what it does, how it works, and what makes it useful.
+    Include information about the underlying technologies or approaches used.
+
+  use_cases:
+    when_to_use:
+      - "TODO: Scenario 1 when this skill should be used"
+      - "TODO: Scenario 2 when this skill should be used"
+      - "TODO: Scenario 3 when this skill should be used"
+
+    when_not_to_use:
+      - "TODO: Scenario when this skill should NOT be used"
+      - "TODO: Alternative skill or approach for those scenarios"
+      - "TODO: Limitations or constraints"
+
+  input_structure: |
+    TODO: Describe the expected input format for your skill.
+
+    Example:
+    {
+      "parameter1": "value1",
+      "parameter2": "value2",
+      "options": {
+        "option1": true,
+        "option2": "value"
+      }
+    }
+
+    Constraints:
+    - TODO: List input constraints
+    - TODO: Validation rules
+    - TODO: Supported formats
+
+  output_format: |
+    TODO: Describe the output format your skill produces.
+
+    Success Response:
+    {
+      "success": true,
+      "result": {
+        "data": "TODO: Your result data",
+        "metadata": {
+          "processing_time_ms": 1000,
+          "additional_info": "value"
+        }
+      }
+    }
+
+    Error Response:
+    {
+      "success": false,
+      "error": {
+        "code": "ERROR_CODE",
+        "message": "Error description"
+      }
+    }
+
+  error_handling:
+    - "TODO: Error type 1 and how it's handled"
+    - "TODO: Error type 2 and how it's handled"
+    - "TODO: Timeout behavior and fallback strategies"
+    - "TODO: Validation errors and user feedback"
+    - "TODO: Resource limit handling"
+
+  examples:
+    - title: "TODO: Example 1 Title"
+      input:
+        parameter1: "value1"
+        parameter2: "value2"
+      output:
+        success: true
+        result:
+          data: "example output"
+        metadata:
+          processing_time_ms: 500
+
+    - title: "TODO: Example 2 Title"
+      input:
+        parameter1: "different_value"
+        options:
+          option1: true
+      output:
+        success: true
+        result:
+          data: "example output 2"
+        metadata:
+          processing_time_ms: 750
+
+  best_practices:
+    for_developers:
+      - "TODO: Best practice 1 for implementing this skill"
+      - "TODO: Best practice 2 for error handling"
+      - "TODO: Best practice 3 for performance optimization"
+      - "TODO: Best practice 4 for testing and validation"
+
+    for_orchestrators:
+      - "TODO: When to route requests to this skill"
+      - "TODO: How to chain this skill with others"
+      - "TODO: Performance considerations for load balancing"
+      - "TODO: Retry and fallback strategies"
+      - "TODO: Monitoring and observability recommendations"
+
+  installation: |
+    TODO: Provide installation instructions for your skill.
+
+    Required packages:
+    pip install <your-package-name>
+
+    Optional dependencies:
+    # TODO: Add platform-specific installation steps if needed
+    # macOS
+    brew install <dependency>
+
+    # Ubuntu/Debian
+    apt-get install <dependency>
+
+    # Windows
+    # TODO: Windows-specific instructions
+
+  versioning:
+    - version: "1.0.0"
+      date: "TODO: Release date"
+      changes: "Initial release with core functionality"
+    - version: "1.1.0"
+      status: "planned"
+      changes: "TODO: Planned enhancements for next version"
+
+# Assessment fields for skill negotiation
+assessment:
+  keywords:
+    - "TODO: keyword1"
+    - "TODO: keyword2"
+    - "TODO: keyword3"
+    - "TODO: Add relevant keywords for skill matching"
+
+  specializations:
+    - domain: "TODO: domain1"
+      confidence_boost: 0.3
+    - domain: "TODO: domain2"
+      confidence_boost: 0.2
+
+  anti_patterns:
+    - "TODO: Pattern that should NOT match this skill"
+    - "TODO: Alternative skill name or approach"
+    - "TODO: Out of scope operations"
+
+  complexity_indicators:
+    simple:
+      - "TODO: Simple task indicator 1"
+      - "TODO: Simple task indicator 2"
+    medium:
+      - "TODO: Medium complexity indicator 1"
+      - "TODO: Medium complexity indicator 2"
+    complex:
+      - "TODO: Complex task indicator 1"
+      - "TODO: Complex task indicator 2"
