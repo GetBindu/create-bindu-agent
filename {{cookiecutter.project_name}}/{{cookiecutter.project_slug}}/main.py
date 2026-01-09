@@ -189,7 +189,7 @@ async def initialize_all(env: Optional[dict[str, str]] = None):
 
 
 def main():
-    """Main entry point for the Airbnb Travel Agent."""
+    """Run the Agent."""
     global model_name, api_key, mem0_api_key
 
     # Parse command-line arguments
