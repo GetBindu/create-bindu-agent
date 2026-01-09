@@ -54,7 +54,7 @@ jobs:
           skills_array="[]"
           for skill_dir in {{ cookiecutter.project_slug }}/skills/*/; do
             if [ -f "${skill_dir}skill.yaml" ]; then
-              skill_json=$(cat "${skill_dir}skill.yaml" | yq -o=json -c .)
+              skill_json=$(cat "${skill_dir}skill.yaml" | yq -o=json | jq -c .)
               skills_array=$(echo "$skills_array" | jq --argjson skill "$skill_json" '. += [$skill]')
             fi
           done
