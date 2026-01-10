@@ -91,9 +91,17 @@ async def initialize_agent() -> None:
 
     agent = Agent(
         name=f"{{cookiecutter.project_name}} Bindu Agent",
-        model=OpenRouter(id=model_name),
-        tools=[tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key)] if tool is not None],  # MultiMCPTools instance
-        instructions=dedent("""\
+        model=OpenRouter(
+            id=model_name,
+            api_key=api_key,
+            cache_response=True,
+            supports_native_structured_outputs=True,
+        ),
+        tools=[tool for tool in [
+            mcp_tools,
+            Mem0Tools(api_key=mem0_api_key)
+        ] if tool is not None],  # MultiMCPTools instance
+        instructions=[dedent("""\
             You are a helpful AI assistant with access to multiple capabilities including:
             - Airbnb search for accommodations and listings
             - Google Maps for location information and directions
@@ -109,7 +117,7 @@ async def initialize_agent() -> None:
             - Provide relevant details about listings and locations
             - Ask for clarification if needed
             - Format responses in a user-friendly way
-        """),
+        """)],
         add_datetime_to_context=True,
         markdown=True,
     )
@@ -197,8 +205,8 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default=os.getenv("MODEL_NAME", "openai/gpt-5-mini"),
-        help="Model ID to use (default: openai/gpt-5-mini, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
+        default=os.getenv("MODEL_NAME", "openai/gpt-oss-120b:free"),
+        help="Model ID to use (default: openai/gpt-oss-120b:free, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
     )
 
     parser.add_argument(
