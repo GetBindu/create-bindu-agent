@@ -47,9 +47,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest
-            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:${{ steps.version.outputs.version }}
-            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:build-${{ github.run_number }}
-            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:${{ github.sha }}
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:{% raw %}${{ steps.version.outputs.version }}{% endraw %}
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:build-{% raw %}${{ github.run_number }}{% endraw %}
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:{% raw %}${{ github.sha }}{% endraw %}
           cache-from: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache
           cache-to: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache,mode=max
 
