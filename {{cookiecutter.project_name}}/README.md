@@ -74,6 +74,18 @@ uv run python -m {{cookiecutter.project_slug}}
 # Agent will be available at http://localhost:3773
 ```
 
+### Github Setup
+
+```bash
+# Initialize git repository and commit your code
+git init -b main
+git add .
+git commit -m "Initial commit"
+
+# Create repository on GitHub and push (replace with your GitHub username)
+gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}} --public --source=. --remote=origin --push
+```
+
 ---
 
 ## 💡 Usage

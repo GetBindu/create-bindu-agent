@@ -24,6 +24,7 @@ from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MultiMCPTools
 from agno.tools.mem0 import Mem0Tools
+from agno.tools.team import Team
 {% elif cookiecutter.agent_framework == "fastagent" %}
 import asyncio
 from fast_agent.core.fastagent import FastAgent
@@ -38,7 +39,7 @@ load_dotenv()
 
 # Global MCP tools instances
 mcp_tools: MultiMCPTools | None = None
-agent: Agent | None = None
+agent: Agent | Team | None = None
 model_name: str | None = None
 api_key: str | None = None
 mem0_api_key: str | None = None
