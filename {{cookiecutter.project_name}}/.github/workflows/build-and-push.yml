@@ -76,7 +76,8 @@ jobs:
             --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: {% raw %}${{ secrets.BINDU_API_TOKEN }}{% endraw %}' \
             --header 'Content-Type: application/json' \
-            --data-raw '{
+            --data @- <<EOF
+          {
               "agent": {
                 "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
                 "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
@@ -111,4 +112,5 @@ jobs:
                 "specialization": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}{% endraw %}",
                 "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
               }
-            }'
+            }
+          EOF
