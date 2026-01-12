@@ -24,7 +24,7 @@ from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MultiMCPTools
 from agno.tools.mem0 import Mem0Tools
-from agno.tools.team import Team
+from agno.team import Team
 {% elif cookiecutter.agent_framework == "fastagent" %}
 import asyncio
 from fast_agent.core.fastagent import FastAgent
@@ -41,7 +41,7 @@ load_dotenv()
 mcp_tools: MultiMCPTools | None = None
 agent: Agent | Team | None = None
 model_name: str | None = None
-api_key: str | None = None
+openrouter_api_key: str | None = None
 mem0_api_key: str | None = None
 _initialized = False
 _init_lock = asyncio.Lock()
@@ -94,7 +94,7 @@ async def initialize_agent() -> None:
         name=f"{{cookiecutter.project_name}} Bindu Agent",
         model=OpenRouter(
             id=model_name,
-            api_key=api_key,
+            api_key=openrouter_api_key,
             cache_response=True,
             supports_native_structured_outputs=True,
         ),
@@ -193,7 +193,7 @@ async def initialize_all(env: Optional[dict[str, str]] = None):
     Args:
         env: Environment variables dict for MCP servers
     """
-    await initialize_mcp_tools(env)
+    #await initialize_mcp_tools(env)
     await initialize_agent()
 
 
@@ -226,10 +226,10 @@ def main():
 
     # Set global model name and API keys
     model_name = args.model
-    api_key = args.api_key
+    openrouter_api_key = args.api_key
     mem0_api_key = args.mem0_api_key
 
-    if not api_key:
+    if not openrouter_api_key:
         raise ValueError("OPENROUTER_API_KEY required") # noqa: TRY003
     if not mem0_api_key:
         raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys") # noqa: TRY003

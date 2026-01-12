@@ -83,7 +83,7 @@ git add .
 git commit -m "Initial commit"
 
 # Create repository on GitHub and push (replace with your GitHub username)
-gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}} --public --source=. --remote=origin --push
+gh repo create {{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}} --public --source=. --remote=origin --push
 ```
 
 ---
