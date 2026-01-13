@@ -12,8 +12,8 @@
 <br/>
 
 <p align="center">
-  <a href="YOUR_VIDEO_URL_HERE">
-    <img src="https://img.shields.io/badge/▶️_Watch-How_to_Create_a_Bindu_Agent-red?style=for-the-badge&logo=youtube" alt="Watch Tutorial Video"/>
+  <a href="https://youtu.be/obY1bGOoWG8?si=uEeDb0XWrtYOQTL7">
+    <img src="https://img.youtube.com/vi/obY1bGOoWG8/maxresdefault.jpg" alt="Watch Tutorial Video"/>
   </a>
 </p>
 
