@@ -6,7 +6,15 @@
 
 <p align="center">
   <em>"We imagine a world of agents where they can communicate with each other seamlessly.<br/>
-  And Bindu turns your agent into a living server , the dot (Bindu) in the Internet of Agents."</em>
+  And Bindu turns your agent into a living server, the dot (Bindu) in the Internet of Agents."</em>
+</p>
+
+<br/>
+
+<p align="center">
+  <a href="YOUR_VIDEO_URL_HERE">
+    <img src="https://img.shields.io/badge/▶️_Watch-How_to_Create_a_Bindu_Agent-red?style=for-the-badge&logo=youtube" alt="Watch Tutorial Video"/>
+  </a>
 </p>
 
 <br/>
