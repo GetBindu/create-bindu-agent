@@ -2,7 +2,7 @@ services:
   {{cookiecutter.project_slug}}:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.agent
     container_name: {{cookiecutter.project_slug}}
     ports:
       - "{{cookiecutter._deployment_port}}:{{cookiecutter._deployment_port}}"
