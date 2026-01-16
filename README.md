@@ -15,7 +15,7 @@
   <a href="README.es.md">🇪🇸 Español</a> •
   <a href="README.fr.md">🇫🇷 Français</a> •
   <a href="README.ja.md">🇯🇵 日本語</a> •
-  <a href="README.bn.md">🇧🇩 বাংলা</a> •
+  <a href="README.bn.md">🇮🇳 বাংলা</a> •
   <a href="README.hi.md">🇮🇳 हिन्दी</a> •
   <a href="README.ta.md">🇮🇳 தமிழ்</a> •
   <a href="README.de.md">🇩🇪 Deutsch</a> •
