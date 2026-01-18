@@ -66,32 +66,6 @@
         "proxy_urls": ["{{ cookiecutter._deployment_host }}"],
         "cors_origins": ["*"]
     },
-    "storage": {
-      "type": "{{ cookiecutter._storage_type }}"
-    },
-    "scheduler": {
-      "type": "{{ cookiecutter._scheduler_type }}"
-    },
-
-    {% if cookiecutter.observability_provider != "none" %}
-    "oltp_endpoint": [
-      {% if cookiecutter.observability_provider == "jaeger" %}"http://jaeger:4318/v1/traces"{% endif %}
-      {% if cookiecutter.observability_provider == "phoenix" %}"http://phoenix:6006/v1/traces"{% endif %}
-      {% if cookiecutter.observability_provider == "langfuse" %}"http://langfuse:3000/v1/traces"{% endif %}
-    ],
-    "oltp_service_name": "{{ cookiecutter.project_slug }}",
-    "oltp_verbose_logging": true,
-    "oltp_service_version": "1.0.0",
-    "oltp_deployment_environment": "production",
-    "oltp_batch_max_queue_size": 2048,
-    "oltp_batch_schedule_delay_millis": 5000,
-    "oltp_batch_max_export_batch_size": 512,
-    "oltp_batch_export_timeout_millis": 30000,
-    "llm_observability": {
-      "enabled": true,
-      "provider": "{{ cookiecutter.observability_provider }}",
-      "endpoint": "{% if cookiecutter.observability_provider == 'phoenix' %}http://phoenix:6006{% elif cookiecutter.observability_provider == 'langfuse' %}http://langfuse:3000{% else %}http://jaeger:4318{% endif %}"
-    },
     {% endif %}
     "num_history_sessions": 5,
     "environment_variables": [
