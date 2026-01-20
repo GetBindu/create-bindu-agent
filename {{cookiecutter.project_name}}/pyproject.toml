@@ -21,6 +21,8 @@ dependencies = [
     "crewai>=0.80.0",
     {%- elif cookiecutter.agent_framework == "fastagent" -%}
     "fastagent>=0.1.0",
+    {%- elif cookiecutter.agent_framework == "autogen" -%}
+    "pyautogen>=0.2.0",
     {%- elif cookiecutter.agent_framework == "openai agent" -%}
     "openai>=1.0.0",
     {%- elif cookiecutter.agent_framework == "google adk agent" -%}
