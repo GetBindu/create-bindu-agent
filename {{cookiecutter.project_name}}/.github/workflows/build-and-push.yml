@@ -29,8 +29,13 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: {{ cookiecutter.author_github_handle }}
+          username: {{ cookiecutter.dockerhub_username }}
           password: {% raw %}${{ secrets.DOCKERHUB_TOKEN }}{% endraw %}
+
+      - name: Read version
+        id: version
+        run: |
+          echo "version=$(cat .version | tr -d '\n')" >> $GITHUB_OUTPUT
 
       - name: Build and push
         id: docker_build
@@ -40,9 +45,13 @@ jobs:
           file: ./Dockerfile.agent
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: {{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest
-          cache-from: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache
-          cache-to: type=registry,ref={{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:buildcache,mode=max
+          tags: |
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:{% raw %}${{ steps.version.outputs.version }}{% endraw %}
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:build-{% raw %}${{ github.run_number }}{% endraw %}
+            {{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:{% raw %}${{ github.sha }}{% endraw %}
+          cache-from: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache
+          cache-to: type=registry,ref={{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:buildcache,mode=max
 
       - name: Read agent config
         id: agent_config
@@ -54,7 +63,7 @@ jobs:
           skills_array="[]"
           for skill_dir in {{ cookiecutter.project_slug }}/skills/*/; do
             if [ -f "${skill_dir}skill.yaml" ]; then
-              skill_json=$(cat "${skill_dir}skill.yaml" | yq -o=json -c .)
+              skill_json=$(cat "${skill_dir}skill.yaml" | yq -o=json | jq -c .)
               skills_array=$(echo "$skills_array" | jq --argjson skill "$skill_json" '. += [$skill]')
             fi
           done
@@ -64,9 +73,11 @@ jobs:
         run: |
           curl --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
+            --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: {% raw %}${{ secrets.BINDU_API_TOKEN }}{% endraw %}' \
             --header 'Content-Type: application/json' \
-            --data-raw '{
+            --data @- <<EOF
+          {
               "agent": {
                 "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
                 "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
@@ -81,12 +92,12 @@ jobs:
                 "version": "{{ cookiecutter._agent_version }}"
               },
               "environment_variables": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }}{% endraw %},
-              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost) }}{% endraw %},
-              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth) }}{% endraw %},
+              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost || fromJson('{}')) }}{% endraw %},
+              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth || fromJson('{}')) }}{% endraw %},
               "deployment": {
                 "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
                 "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",
-                "docker_image": "{{ cookiecutter.author_github_handle }}/{{ cookiecutter.project_name }}:latest",
+                "docker_image": "{{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest",
                 "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
                 "platforms": ["linux/amd64", "linux/arm64"]
               },
@@ -101,4 +112,5 @@ jobs:
                 "specialization": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}{% endraw %}",
                 "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
               }
-            }'
+            }
+          EOF

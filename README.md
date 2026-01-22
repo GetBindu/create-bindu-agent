@@ -6,7 +6,28 @@
 
 <p align="center">
   <em>"We imagine a world of agents where they can communicate with each other seamlessly.<br/>
-  And Bindu turns your agent into a living server , the dot (Bindu) in the Internet of Agents."</em>
+  And Bindu turns your agent into a living server, the dot (Bindu) in the Internet of Agents."</em>
+</p>
+
+<p align="center">
+  <a href="README.md">🇬🇧 English</a> •
+  <a href="README.zh-CN.md">🇨🇳 简体中文</a> •
+  <a href="README.es.md">🇪🇸 Español</a> •
+  <a href="README.fr.md">🇫🇷 Français</a> •
+  <a href="README.ja.md">🇯🇵 日本語</a> •
+  <a href="README.bn.md">🇮🇳 বাংলা</a> •
+  <a href="README.hi.md">🇮🇳 हिन्दी</a> •
+  <a href="README.ta.md">🇮🇳 தமிழ்</a> •
+  <a href="README.de.md">🇩🇪 Deutsch</a> •
+  <a href="README.nl.md">🇳🇱 Nederlands</a>
+</p>
+
+<br/>
+
+<p align="center">
+  <a href="https://youtu.be/obY1bGOoWG8?si=uEeDb0XWrtYOQTL7">
+    <img src="https://img.youtube.com/vi/obY1bGOoWG8/maxresdefault.jpg" alt="Watch Tutorial Video"/>
+  </a>
 </p>
 
 <br/>

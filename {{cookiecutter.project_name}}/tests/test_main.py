@@ -49,13 +49,13 @@ async def test_handler_with_multiple_messages():
 @pytest.mark.asyncio
 async def test_handler_initialization():
     """Test that handler initializes on first call."""
-    messages = [{"role": "user", "content": "Test"}]
+    _messages = [{"role": "user", "content": "Test"}]
 
     mock_response = MagicMock()
 
     # Start with _initialized as False to test initialization path
     with patch("{{cookiecutter.project_slug}}.main._initialized", False), \
-         patch("{{cookiecutter.project_slug}}.main.initialize_all", new_callable=AsyncMock) as mock_init, \
+         patch("{{cookiecutter.project_slug}}.main.initialize_all", new_callable=AsyncMock) as _mock_init, \
          patch("{{cookiecutter.project_slug}}.main.run_agent", new_callable=AsyncMock, return_value=mock_response), \
          patch("{{cookiecutter.project_slug}}.main._init_lock"):
         # Note: This test verifies the initialization logic exists

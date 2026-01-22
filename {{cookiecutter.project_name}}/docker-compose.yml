@@ -2,108 +2,47 @@ services:
   {{cookiecutter.project_slug}}:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.agent
     container_name: {{cookiecutter.project_slug}}
     ports:
       - "{{cookiecutter._deployment_port}}:{{cookiecutter._deployment_port}}"
     environment:
+      # OpenRouter API Configuration
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      {% if cookiecutter.observability_provider == "phoenix" -%}
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4317
-      {% elif cookiecutter.observability_provider == "jaeger" -%}
-      - OTEL_EXPORTER_OTLP_ENDPOINT={{cookiecutter._oltp_endpoint}}
-      {% elif cookiecutter.observability_provider == "langfuse" -%}
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://langfuse:4317
-      {% endif %}
-
+      
+      # Mem0 Memory Configuration
+      - MEM0_API_KEY=${MEM0_API_KEY}
+      
+      # Database Configuration
+      - STORAGE_TYPE=${STORAGE_TYPE:-memory}
+      - DATABASE_URL=${DATABASE_URL}
+      
+      # Redis Scheduler Configuration
+      - SCHEDULER_TYPE=${SCHEDULER_TYPE:-memory}
+      - REDIS_URL=${REDIS_URL}
+      
+      # Sentry Error Tracking
+      - SENTRY_ENABLED=${SENTRY_ENABLED:-false}
+      - SENTRY_DSN=${SENTRY_DSN}
+      
+      # Telemetry & Observability
+      - TELEMETRY_ENABLED=${TELEMETRY_ENABLED:-false}
+      - OLTP_VERBOSE_LOGGING=${OLTP_VERBOSE_LOGGING:-false}
+      - OLTP_ENDPOINT=${OLTP_ENDPOINT}
+      - OLTP_SERVICE_NAME=${OLTP_SERVICE_NAME:-{{cookiecutter.project_slug}}}
+      - OLTP_HEADERS=${OLTP_HEADERS}
     env_file:
       - .env
-    volumes:
-      - ./{{cookiecutter.project_slug}}:/app/{{cookiecutter.project_slug}}
-      - ./agent_config.json:/app/agent_config.json
     restart: unless-stopped
     networks:
       - {{cookiecutter.project_slug}}-network
-    {% if cookiecutter.observability_provider != "none" -%}
-    depends_on:
-      {% if cookiecutter.observability_provider == "jaeger" -%}
-      - jaeger
-      {% endif -%}
-      {% if cookiecutter.observability_provider == "phoenix" -%}
-      - phoenix
-      {% endif -%}
-      {% if cookiecutter.observability_provider == "langfuse" -%}
-      - langfuse
-      {% endif -%}
-    {% endif -%}
-{% if cookiecutter.observability_provider == "jaeger" %}
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    container_name: {{cookiecutter.project_slug}}-jaeger
-    ports:
-      - "16686:16686"  # Jaeger UI
-      - "4318:4318"    # OTLP HTTP receiver
-      - "4317:4317"    # OTLP gRPC receiver
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-    networks:
-      - {{cookiecutter.project_slug}}-network
-    restart: unless-stopped
-{% endif %}
-{% if cookiecutter.observability_provider == "phoenix" %}
-  phoenix:
-    image: arizephoenix/phoenix:latest
-    container_name: {{cookiecutter.project_slug}}-phoenix
-    ports:
-      - "6006:6006"  # Phoenix UI and OTLP HTTP collector
-      - "4319:4317"  # OTLP gRPC collector
-    environment:
-      - PHOENIX_WORKING_DIR=/mnt/data
-    volumes:
-      - phoenix_data:/mnt/data
-    networks:
-      - {{cookiecutter.project_slug}}-network
-    restart: unless-stopped
-{% endif %}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:{{cookiecutter._deployment_port}}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
 networks:
   {{cookiecutter.project_slug}}-network:
     driver: bridge
-{% if cookiecutter.observability_provider == "phoenix" %}
-volumes:
-  phoenix_data:
-    driver: local
-{% endif %}
-{% if cookiecutter.observability_provider == "langfuse" %}
-  langfuse:
-    image: langfuse/langfuse:latest
-    container_name: {{cookiecutter.project_slug}}-langfuse
-    ports:
-      - "3000:3000"
-      - "4320:4317"
-    environment:
-      - DATABASE_URL=postgresql://langfuse:langfuse@langfuse-db:5432/langfuse
-      - NEXTAUTH_SECRET=mysecret
-      - NEXTAUTH_URL=http://localhost:3000
-    networks:
-      - {{cookiecutter.project_slug}}-network
-    restart: unless-stopped
-    depends_on:
-      - langfuse-db
-
-  langfuse-db:
-    image: postgres:15
-    container_name: {{cookiecutter.project_slug}}-langfuse-db
-    environment:
-      - POSTGRES_USER=langfuse
-      - POSTGRES_PASSWORD=langfuse
-      - POSTGRES_DB=langfuse
-    volumes:
-      - langfuse_db_data:/var/lib/postgresql/data
-    networks:
-      - {{cookiecutter.project_slug}}-network
-    restart: unless-stopped
-
-volumes:
-  langfuse_db_data:
-    driver: local
-{% endif %}
