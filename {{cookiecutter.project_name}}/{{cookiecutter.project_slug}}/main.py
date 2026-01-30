@@ -28,6 +28,8 @@ from agno.team import Team
 {% elif cookiecutter.agent_framework == "fastagent" %}
 import asyncio
 from fast_agent.core.fastagent import FastAgent
+{% elif cookiecutter.agent_framework == "autogen" %}
+import autogen
 {% endif %}
 
 from bindu.penguin.bindufy import bindufy
@@ -184,6 +186,40 @@ async def handler(messages: list[dict[str, str]]) -> Any:
     # Run the async agent
     result = await run_agent(messages)
     return result
+
+    {% elif cookiecutter.agent_framework == "autogen" %}
+    global model_name, openrouter_api_key
+    
+    # 1. Setup the Autogen Config
+    config_list = [{
+        "model": model_name,
+        "api_key": openrouter_api_key,
+        "base_url": "https://openrouter.ai/api/v1"
+    }]
+
+    # 2. Create the Assistant
+    assistant = autogen.AssistantAgent(
+        name="Bindu_Assistant",
+        llm_config={"config_list": config_list},
+        system_message="You are a helpful AI assistant connected to the Bindu network."
+    )
+
+    # 3. Create a User Proxy
+    user_proxy = autogen.UserProxyAgent(
+        name="User_Proxy",
+        human_input_mode="NEVER",
+        code_execution_config=False,
+    )
+
+    # 4. Generate a reply
+    last_user_message = messages[-1]["content"] if messages else "Hello"
+    chat_res = await user_proxy.a_initiate_chat(
+        assistant,
+        message=last_user_message,
+        summary_method="last_msg"
+    )
+    
+    return chat_res.summary
     {% endif %}
 
 

@@ -11,6 +11,7 @@
     "langchain",
     "crew",
     "fastagent",
+    "autogen",
     "openai agent",
     "google adk agent",
     "custom"
