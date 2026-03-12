@@ -28,6 +28,14 @@ from agno.team import Team
 {% elif cookiecutter.agent_framework == "fastagent" %}
 import asyncio
 from fast_agent.core.fastagent import FastAgent
+{% elif cookiecutter.agent_framework == "crewai" %}
+from crewai import Agent
+from crewai.tools import tool
+from langchain_openai import ChatOpenAI
+{% elif cookiecutter.agent_framework == "langchain" %}
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_openai import ChatOpenAI
+from langchain.tools import tool
 {% endif %}
 
 from bindu.penguin.bindufy import bindufy
@@ -38,8 +46,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Global MCP tools instances
-mcp_tools: MultiMCPTools | None = None
-agent: Agent | Team | None = None
+mcp_tools: Any | None = None
+agent: Any | None = None
 model_name: str | None = None
 openrouter_api_key: str | None = None
 mem0_api_key: str | None = None
@@ -152,6 +160,137 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     response = await agent.arun(messages)
     return response
 
+{% elif cookiecutter.agent_framework == "crewai" %}
+# Create the agent instance
+async def initialize_agent() -> None:
+    """Initialize the CrewAI agent once."""
+    global agent, model_name
+
+    if not model_name:
+        msg = "model_name must be set before initializing agent"
+        raise ValueError(msg)
+
+    llm = ChatOpenAI(
+        model=model_name,
+        api_key=openrouter_api_key,
+        temperature=0.7
+    )
+
+    agent = Agent(
+        role=f"{{cookiecutter.project_name}} Assistant",
+        goal=dedent("""\
+            You are a helpful AI assistant with access to multiple capabilities including:
+            - Airbnb search for accommodations and listings
+            - Google Maps for location information and directions
+
+            Your capabilities:
+            - Search for Airbnb listings based on location, dates, and guest requirements
+            - Provide detailed information about available properties
+            - Access Google Maps data for location information and directions
+            - Help users find the best accommodations for their needs
+
+            Always:
+            - Be clear and concise in your responses
+            - Provide relevant details about listings and locations
+            - Ask for clarification if needed
+            - Format responses in a user-friendly way
+        """),
+        backstory="You are an AI assistant specialized in helping users find accommodations and location information.",
+        llm=llm,
+        verbose=True,
+        allow_delegation=False,
+    )
+    print("✅ CrewAI Agent initialized")
+
+
+async def cleanup_mcp_tools() -> None:
+    """Close all MCP server connections."""
+    global mcp_tools
+
+    if mcp_tools:
+        try:
+            await mcp_tools.close()
+            print("🔌 Disconnected from MCP servers")
+        except Exception as e:
+            print(f"⚠️  Error closing MCP tools: {e}")
+
+
+async def run_agent(messages: list[dict[str, str]]) -> Any:
+    """Run the agent with the given messages.
+
+    Args:
+        messages: List of message dicts with 'role' and 'content' keys
+
+    Returns:
+        Agent response
+    """
+    global agent
+
+    # Run the agent and get response
+    response = await agent.arun(messages)
+    return response
+
+{% elif cookiecutter.agent_framework == "langchain" %}
+# Create the agent instance
+async def initialize_agent() -> None:
+    """Initialize the LangChain agent once."""
+    global agent, model_name, mcp_tools
+
+    if not model_name:
+        msg = "model_name must be set before initializing agent"
+        raise ValueError(msg)
+
+    llm = ChatOpenAI(
+        model=model_name,
+        api_key=openrouter_api_key,
+        temperature=0.7
+    )
+
+    # Create tools list
+    tools = []
+    if mcp_tools:
+        tools.extend(mcp_tools.get_tools())
+    
+    # Create the agent
+    from langchain import hub
+    prompt = hub.pull("hwchase17/openai-tools-agent")
+    
+    agent = create_tool_calling_agent(llm, tools, prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    
+    # Store the executor
+    global agent_executor
+    agent_executor = agent_executor
+    print("✅ LangChain Agent initialized")
+
+
+async def cleanup_mcp_tools() -> None:
+    """Close all MCP server connections."""
+    global mcp_tools
+
+    if mcp_tools:
+        try:
+            await mcp_tools.close()
+            print("🔌 Disconnected from MCP servers")
+        except Exception as e:
+            print(f"⚠️  Error closing MCP tools: {e}")
+
+
+async def run_agent(messages: list[dict[str, str]]) -> Any:
+    """Run the agent with the given messages.
+
+    Args:
+        messages: List of message dicts with 'role' and 'content' keys
+
+    Returns:
+        Agent response
+    """
+    global agent
+
+    # Run the agent and get response
+    response = await agent.arun(messages)
+    return response
+
 {% endif %}
 
 
@@ -165,7 +304,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
     Returns:
         Agent response (ManifestWorker will handle extraction)
     """
-    {% if cookiecutter.agent_framework == "agno" %}
+    {% if cookiecutter.agent_framework in ["agno", "crewai", "langchain"] %}
     # Run agent with messages
     global _initialized
 
