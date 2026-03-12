@@ -164,7 +164,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
 # Create the agent instance
 async def initialize_agent() -> None:
     """Initialize the CrewAI agent once."""
-    global agent, model_name
+    global agent, model_name, mcp_tools
 
     if not model_name:
         msg = "model_name must be set before initializing agent"
@@ -197,6 +197,10 @@ async def initialize_agent() -> None:
         """),
         backstory="You are an AI assistant specialized in helping users find accommodations and location information.",
         llm=llm,
+        tools=[tool for tool in [
+            mcp_tools,
+            Mem0Tools(api_key=mem0_api_key)
+        ] if tool is not None] if mcp_tools or mem0_api_key else [],
         verbose=True,
         allow_delegation=False,
     )
@@ -204,6 +208,7 @@ async def initialize_agent() -> None:
 
 
 async def cleanup_mcp_tools() -> None:
+
     """Close all MCP server connections."""
     global mcp_tools
 
@@ -234,7 +239,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
 # Create the agent instance
 async def initialize_agent() -> None:
     """Initialize the LangChain agent once."""
-    global agent, model_name, mcp_tools
+    global agent, model_name, mcp_tools, agent_executor
 
     if not model_name:
         msg = "model_name must be set before initializing agent"
@@ -251,16 +256,48 @@ async def initialize_agent() -> None:
     if mcp_tools:
         tools.extend(mcp_tools.get_tools())
     
-    # Create the agent
+    # Add Mem0Tools if API key is available
+    if mem0_api_key:
+        tools.append(Mem0Tools(api_key=mem0_api_key))
+    
+    # Create the agent with instructions
     from langchain import hub
     prompt = hub.pull("hwchase17/openai-tools-agent")
     
-    agent = create_tool_calling_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    # Create a custom prompt with instructions
+    from langchain_core.prompts import ChatPromptTemplate
+    system_prompt = dedent("""\
+        You are a helpful AI assistant with access to multiple capabilities including:
+        - Airbnb search for accommodations and listings
+        - Google Maps for location information and directions
+
+        Your capabilities:
+        - Search for Airbnb listings based on location, dates, and guest requirements
+        - Provide detailed information about available properties
+        - Access Google Maps data for location information and directions
+        - Help users find the best accommodations for their needs
+
+        Always:
+        - Be clear and concise in your responses
+        - Provide relevant details about listings and locations
+        - Ask for clarification if needed
+        - Format responses in a user-friendly way
+    """)
     
-    # Store the executor
-    global agent_executor
-    agent_executor = agent_executor
+    agent_prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("human", "{input}"),
+        ("assistant", "{agent_scratchpad}")
+    ])
+    
+    agent = create_tool_calling_agent(llm, tools, agent_prompt)
+    agent_executor = AgentExecutor(
+        agent=agent, 
+        tools=tools, 
+        verbose=True,
+        return_intermediate_steps=True
+    )
+    
     print("✅ LangChain Agent initialized")
 
 
@@ -286,7 +323,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
         Agent response
     """
     global agent
-
+    
     # Run the agent and get response
     response = await agent.arun(messages)
     return response
