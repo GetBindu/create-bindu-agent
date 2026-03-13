@@ -242,32 +242,38 @@ if __name__ == "__main__":
         import shutil
         import json
 
-        # Template skills directory
-        template_skills_dir = Path(__file__).parent.parent / "skills"
-        print(f"\n  📁 Template skills directory: {template_skills_dir}")
-        print(f"  📁 Directory exists: {template_skills_dir.exists()}")
+        # Template skills directory - get the actual cookiecutter template directory
+        # __file__ is in hooks/, so we need to go up one level to get to template root
+        hooks_dir = os.path.dirname(os.path.abspath(__file__))
+        template_root = os.path.dirname(hooks_dir)
+        template_skills_dir = os.path.join(template_root, "skills")
+        
+        print(f"\n  📁 Hooks directory: {hooks_dir}")
+        print(f"  📁 Template root: {template_root}")
+        print(f"  📁 Template skills directory: {template_skills_dir}")
+        print(f"  📁 Directory exists: {os.path.exists(template_skills_dir)}")
 
         # Generated project skills directory
-        project_skills_dir = Path(PROJECT_DIRECTORY) / project_slug / "skills"
-        project_skills_dir.mkdir(parents=True, exist_ok=True)
+        project_skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
+        os.makedirs(project_skills_dir, exist_ok=True)
         print(f"  📁 Project skills directory: {project_skills_dir}")
 
         skill_paths = []
         for skill_name in selected_skills:
             # Create skill folder in generated project
-            skill_folder = project_skills_dir / skill_name
-            skill_folder.mkdir(parents=True, exist_ok=True)
+            skill_folder = os.path.join(project_skills_dir, skill_name)
+            os.makedirs(skill_folder, exist_ok=True)
 
             # Copy skill YAML file from template
-            source_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
-            dest_yaml = skill_folder / "skill.yaml"
+            source_yaml = os.path.join(template_skills_dir, f"{skill_name}-skill.yaml")
+            dest_yaml = os.path.join(skill_folder, "skill.yaml")
 
             print(f"\n  Processing skill: {skill_name}")
             print(f"    Source: {source_yaml}")
-            print(f"    Source exists: {source_yaml.exists()}")
+            print(f"    Source exists: {os.path.exists(source_yaml)}")
             print(f"    Dest: {dest_yaml}")
 
-            if source_yaml.exists():
+            if os.path.exists(source_yaml):
                 shutil.copy(source_yaml, dest_yaml)
                 skill_paths.append(f"skills/{skill_name}")
                 print(f"  ✓ Added skill: {skill_name}")
@@ -275,8 +281,8 @@ if __name__ == "__main__":
                 print(f"  ⚠ Warning: Skill file not found for {skill_name}")
 
         # Update agent_config.json with skill paths
-        agent_config_path = Path(PROJECT_DIRECTORY) / project_slug / "agent_config.json"
-        if agent_config_path.exists() and skill_paths:
+        agent_config_path = os.path.join(PROJECT_DIRECTORY, project_slug, "agent_config.json")
+        if os.path.exists(agent_config_path) and skill_paths:
             with open(agent_config_path, "r") as f:
                 config = json.load(f)
 
