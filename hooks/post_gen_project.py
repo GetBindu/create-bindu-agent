@@ -242,14 +242,11 @@ if __name__ == "__main__":
         import shutil
         import json
 
-        # Template skills directory - get the actual cookiecutter template directory
-        # __file__ is in hooks/, so we need to go up one level to get to template root
+        # Template skills directory - now in hooks/skills for easy access
         hooks_dir = os.path.dirname(os.path.abspath(__file__))
-        template_root = os.path.dirname(hooks_dir)
-        template_skills_dir = os.path.join(template_root, "skills")
+        template_skills_dir = os.path.join(hooks_dir, "skills")
         
         print(f"\n  📁 Hooks directory: {hooks_dir}")
-        print(f"  📁 Template root: {template_root}")
         print(f"  📁 Template skills directory: {template_skills_dir}")
         print(f"  📁 Directory exists: {os.path.exists(template_skills_dir)}")
 
