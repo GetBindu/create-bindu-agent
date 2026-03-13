@@ -69,48 +69,139 @@ jobs:
           done
           echo "skills=$(echo $skills_array | jq -c .)" >> $GITHUB_OUTPUT
 
-      - name: Log to backend service
+      - name: Register agent deployment
+        id: register
         run: |
-          curl --location 'https://bindus.getbindu.com/bindu-register' \
+          # Create JSON payload file to avoid shell escaping issues
+          cat > /tmp/payload.json <<'EOF'
+          {
+            "agent": {
+              "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
+              "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
+              "description": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).description }}{% endraw %}",
+              "version": "{% raw %}${{ steps.agent_config.outputs.version }}{% endraw %}",
+              "agent_trust": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).agent_trust }}{% endraw %}",
+              "type": "research"
+            },
+            "skills": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.skills)) }}{% endraw %},
+            "framework": {
+              "name": "{{ cookiecutter.agent_framework }}",
+              "version": "{{ cookiecutter._agent_version }}"
+            },
+            "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost || fromJson('{}')) }}{% endraw %},
+            "deployment": {
+              "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
+              "docker_image": "{{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest",
+              "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
+              "platforms": ["linux/amd64", "linux/arm64"]
+            },
+            "repository": {
+              "url": "https://github.com/{% raw %}${{ github.repository }}{% endraw %}",
+              "commit_sha": "{% raw %}${{ github.sha }}{% endraw %}",
+              "build_number": "{% raw %}${{ github.run_number }}{% endraw %}"
+            },
+            "metadata": {
+              "documentation_url": "https://{{ cookiecutter.author_github_handle }}.github.io/{{ cookiecutter.project_name }}/",
+              "domain": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).extra_metadata.domain || 'general' }}{% endraw %}",
+              "specialization": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).extra_metadata.specialization || 'multi-purpose' }}{% endraw %}",
+              "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
+            }
+          }
+          EOF
+
+          response=$(curl -w "\n%{http_code}" --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
             --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: {% raw %}${{ secrets.BINDU_API_TOKEN }}{% endraw %}' \
             --header 'Content-Type: application/json' \
-            --data @- <<EOF
-          {
-              "agent": {
-                "name": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).name }}{% endraw %}",
-                "author": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).author }}{% endraw %}",
-                "description": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).description }}{% endraw %}",
-                "version": "{% raw %}${{ steps.agent_config.outputs.version }}{% endraw %}",
-                "agent_trust": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).agent_trust }}{% endraw %}",
-                "type": "research"
-              },
-              "skills": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.skills)) }}{% endraw %},
-              "framework": {
-                "name": "{{ cookiecutter.agent_framework }}",
-                "version": "{{ cookiecutter._agent_version }}"
-              },
-              "environment_variables": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }}{% endraw %},
-              "execution_cost": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost || fromJson('{}')) }}{% endraw %},
-              "auth": {% raw %}${{ toJson(fromJson(steps.agent_config.outputs.config).auth || fromJson('{}')) }}{% endraw %},
-              "deployment": {
-                "url": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.url }}{% endraw %}",
-                "protocol_version": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}{% endraw %}",
-                "docker_image": "{{ cookiecutter.dockerhub_username }}/{{ cookiecutter.project_name }}:latest",
-                "docker_digest": "{% raw %}${{ steps.docker_build.outputs.digest }}{% endraw %}",
-                "platforms": ["linux/amd64", "linux/arm64"]
-              },
-              "repository": {
-                "url": "https://github.com/{% raw %}${{ github.repository }}{% endraw %}",
-                "commit_sha": "{% raw %}${{ github.sha }}{% endraw %}",
-                "build_number": "{% raw %}${{ github.run_number }}{% endraw %}"
-              },
-              "metadata": {
-                "documentation_url": "https://{{ cookiecutter.author_github_handle }}.github.io/{{ cookiecutter.project_name }}/",
-                "domain": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}{% endraw %}",
-                "specialization": "{% raw %}${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}{% endraw %}",
-                "last_updated": "{% raw %}${{ github.event.head_commit.timestamp }}{% endraw %}"
-              }
-            }
-          EOF
+            --data @/tmp/payload.json)
+
+          # Extract HTTP status code and body
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "HTTP Status: $http_code"
+          echo "Registration response: $body"
+
+          # Check if request was successful
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Registration failed with HTTP $http_code"
+            echo "Response: $body"
+            exit 1
+          fi
+
+          # Parse response
+          agent_id=$(echo "$body" | jq -r '.agent_id')
+          deployment_id=$(echo "$body" | jq -r '.id')
+          status=$(echo "$body" | jq -r '.message')
+
+          # Validate extracted values
+          if [ "$agent_id" = "null" ] || [ -z "$agent_id" ]; then
+            echo "❌ Failed to extract agent_id from response"
+            exit 1
+          fi
+
+          if [ "$deployment_id" = "null" ] || [ -z "$deployment_id" ]; then
+            echo "❌ Failed to extract deployment_id from response"
+            exit 1
+          fi
+
+          echo "agent_id=$agent_id" >> $GITHUB_OUTPUT
+          echo "deployment_id=$deployment_id" >> $GITHUB_OUTPUT
+          echo "✅ Registration successful: $status"
+          echo "📦 Agent ID: $agent_id"
+          echo "🚀 Deployment ID: $deployment_id"
+
+      - name: Wait for deployment to complete
+        run: |
+          agent_id={% raw %}${{ steps.register.outputs.agent_id }}{% endraw %}
+          deployment_id={% raw %}${{ steps.register.outputs.deployment_id }}{% endraw %}
+
+          echo "🚀 Waiting for Argo deployment to complete..."
+          echo "Agent ID: $agent_id"
+          echo "Deployment ID: $deployment_id"
+
+          max_attempts=60  # 10 minutes (60 * 10 seconds)
+          attempt=0
+
+          while [ $attempt -lt $max_attempts ]; do
+            status_response=$(curl -s -w "\n%{http_code}" "https://bindus.getbindu.com/agents/$agent_id/deployment/$deployment_id/status")
+
+            http_code=$(echo "$status_response" | tail -n1)
+            body=$(echo "$status_response" | sed '$d')
+
+            if [ "$http_code" != "200" ]; then
+              echo "⚠️  Status check failed with HTTP $http_code (attempt $((attempt + 1))/$max_attempts)"
+              echo "Response: $body"
+              sleep 10
+              attempt=$((attempt + 1))
+              continue
+            fi
+
+            deployment_status=$(echo "$body" | jq -r '.status // .deployment_status // "unknown"')
+            echo "⏳ Deployment status: $deployment_status (attempt $((attempt + 1))/$max_attempts)"
+
+            if [ "$deployment_status" = "succeeded" ]; then
+              deployment_url=$(echo "$body" | jq -r '.deployment_url // "N/A"')
+              health_check_url=$(echo "$body" | jq -r '.health_check_url // "N/A"')
+              grafana_url=$(echo "$body" | jq -r '.grafana_dashboard_url // "N/A"')
+
+              echo "✅ Deployment succeeded!"
+              echo "🚀 Agent URL: $deployment_url"
+              echo "❤️  Health Check: $health_check_url"
+              echo "📊 Grafana Dashboard: $grafana_url"
+              exit 0
+            elif [ "$deployment_status" = "failed" ]; then
+              error=$(echo "$body" | jq -r '.deployment_error // .error // "Unknown error"')
+              echo "❌ Deployment failed: $error"
+              exit 1
+            fi
+
+            # Still deploying (pending or deploying status), wait and retry
+            sleep 10
+            attempt=$((attempt + 1))
+          done
+
+          echo "❌ Deployment timed out after 10 minutes"
+          echo "Last status: $deployment_status"
+          exit 1

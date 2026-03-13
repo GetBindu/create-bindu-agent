@@ -267,15 +267,18 @@ if __name__ == "__main__":
 
         # Update agent_config.json with converted skill names
         import json
+
         agent_config_path = Path(PROJECT_DIRECTORY) / project_slug / "agent_config.json"
         if agent_config_path.exists():
-            with open(agent_config_path, 'r') as f:
+            with open(agent_config_path, "r") as f:
                 config = json.load(f)
 
             # Update skills array with converted names
-            config['skills'] = [f"skills/{skill.strip()}" for skill in skill_names if skill.strip()]
+            config["skills"] = [
+                f"skills/{skill.strip()}" for skill in skill_names if skill.strip()
+            ]
 
-            with open(agent_config_path, 'w') as f:
+            with open(agent_config_path, "w") as f:
                 json.dump(config, f, indent=2)
             print(f"  · Updated agent_config.json with {len(config['skills'])} skills")
 
