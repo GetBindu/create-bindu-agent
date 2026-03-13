@@ -244,10 +244,13 @@ if __name__ == "__main__":
 
         # Template skills directory
         template_skills_dir = Path(__file__).parent.parent / "skills"
+        print(f"\n  📁 Template skills directory: {template_skills_dir}")
+        print(f"  📁 Directory exists: {template_skills_dir.exists()}")
 
         # Generated project skills directory
         project_skills_dir = Path(PROJECT_DIRECTORY) / project_slug / "skills"
         project_skills_dir.mkdir(parents=True, exist_ok=True)
+        print(f"  📁 Project skills directory: {project_skills_dir}")
 
         skill_paths = []
         for skill_name in selected_skills:
@@ -259,10 +262,15 @@ if __name__ == "__main__":
             source_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
             dest_yaml = skill_folder / "skill.yaml"
 
+            print(f"\n  Processing skill: {skill_name}")
+            print(f"    Source: {source_yaml}")
+            print(f"    Source exists: {source_yaml.exists()}")
+            print(f"    Dest: {dest_yaml}")
+
             if source_yaml.exists():
                 shutil.copy(source_yaml, dest_yaml)
                 skill_paths.append(f"skills/{skill_name}")
-                print(f"  · Added skill: {skill_name}")
+                print(f"  ✓ Added skill: {skill_name}")
             else:
                 print(f"  ⚠ Warning: Skill file not found for {skill_name}")
 
