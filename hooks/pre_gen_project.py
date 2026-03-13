@@ -148,18 +148,6 @@ def display_skills_and_prompt() -> str:
 
 # Main execution
 if __name__ == "__main__":
-    # Show skill selection before cookiecutter prompts
-    # Only if skill_names is empty (not provided via command line)
-    skill_names_value = "{{cookiecutter.skill_names}}"
-    
-    if not skill_names_value or skill_names_value == "":
-        selected_skills = display_skills_and_prompt()
-        
-        # Write to temp file for cookiecutter to read
-        if selected_skills:
-            temp_file = Path(__file__).parent / ".selected_skills"
-            temp_file.write_text(selected_skills)
-    
     # Validate project name
     PROJECT_NAME_REGEX = r"^[-a-zA-Z][-a-zA-Z0-9]+$"
     project_name = "{{cookiecutter.project_name}}"

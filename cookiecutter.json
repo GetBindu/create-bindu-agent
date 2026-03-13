@@ -15,10 +15,7 @@
     "google adk agent",
     "custom"
   ],
-  "include_example_skills": [
-    "y",
-    "n"
-  ],
+  "available_skills": "\n💼 Business & Finance\n  1. finance\n  2. financial-coach\n  3. competitor-analysis\n  4. startup-analyst\n  5. explainable-business\n🔬 Research & Analysis\n  6. deep-research\n  7. analyze-paper\n  8. hackernews-analysis\n  9. media-trend-analysis\n🎨 Creative & Content\n  10. instagram-post\n  11. meme-generator\n  12. screenplay-writer\n  13. recipe-creator\n  14. youtube\n  15. web-extraction\n🌟 Personal & Lifestyle\n  16. travel-planner\n  17. surprise-travel-planning\n  18. shopping-partner\n  19. movie-recommender\n  20. personalized-book-recommendation\n💚 Health & Wellness\n  21. breakup-recovery\n  22. cbt-clinical-critic\n  23. cbt-drafter\n  24. cbt-safety-guardian\n  25. cbt-supervisor-orchestrator\n⚙️  Technical & Development\n  26. system-architect-advisor\n  27. biomni\n⚖️  Legal & Compliance\n  28. legal-consultant\n  29. zk-policy\n",
   "skill_names": "",
   "auth_provider": [
     "none",
