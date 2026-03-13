@@ -238,7 +238,6 @@ if __name__ == "__main__":
 
     # Process selected skills
     if selected_skills:
-        from pathlib import Path
         import shutil
         import json
 
@@ -246,15 +245,10 @@ if __name__ == "__main__":
         # The skills are in ~/.cookiecutters/create-bindu-agent/hooks/skills
         cookiecutter_cache = os.path.expanduser("~/.cookiecutters/create-bindu-agent")
         template_skills_dir = os.path.join(cookiecutter_cache, "hooks", "skills")
-        
-        print(f"\n  📁 Cookiecutter cache: {cookiecutter_cache}")
-        print(f"  📁 Template skills directory: {template_skills_dir}")
-        print(f"  📁 Directory exists: {os.path.exists(template_skills_dir)}")
 
         # Generated project skills directory
         project_skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
         os.makedirs(project_skills_dir, exist_ok=True)
-        print(f"  📁 Project skills directory: {project_skills_dir}")
 
         skill_paths = []
         for skill_name in selected_skills:
@@ -266,20 +260,14 @@ if __name__ == "__main__":
             source_yaml = os.path.join(template_skills_dir, f"{skill_name}-skill.yaml")
             dest_yaml = os.path.join(skill_folder, "skill.yaml")
 
-            print(f"\n  Processing skill: {skill_name}")
-            print(f"    Source: {source_yaml}")
-            print(f"    Source exists: {os.path.exists(source_yaml)}")
-            print(f"    Dest: {dest_yaml}")
-
             if os.path.exists(source_yaml):
                 shutil.copy(source_yaml, dest_yaml)
                 skill_paths.append(f"skills/{skill_name}")
-                print(f"  ✓ Added skill: {skill_name}")
-            else:
-                print(f"  ⚠ Warning: Skill file not found for {skill_name}")
 
         # Update agent_config.json with skill paths
-        agent_config_path = os.path.join(PROJECT_DIRECTORY, project_slug, "agent_config.json")
+        agent_config_path = os.path.join(
+            PROJECT_DIRECTORY, project_slug, "agent_config.json"
+        )
         if os.path.exists(agent_config_path) and skill_paths:
             with open(agent_config_path, "r") as f:
                 config = json.load(f)
@@ -288,7 +276,6 @@ if __name__ == "__main__":
 
             with open(agent_config_path, "w") as f:
                 json.dump(config, f, indent=2)
-            print(f"  · Updated agent_config.json with {len(skill_paths)} skills")
 
     # Cleanup and license handling
     if "{{cookiecutter.include_github_actions}}" != "y":
