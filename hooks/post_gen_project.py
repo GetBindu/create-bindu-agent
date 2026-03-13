@@ -242,11 +242,12 @@ if __name__ == "__main__":
         import shutil
         import json
 
-        # Template skills directory - now in hooks/skills for easy access
-        hooks_dir = os.path.dirname(os.path.abspath(__file__))
-        template_skills_dir = os.path.join(hooks_dir, "skills")
+        # Template skills directory - use cookiecutter cache since hooks dir is copied to temp
+        # The skills are in ~/.cookiecutters/create-bindu-agent/hooks/skills
+        cookiecutter_cache = os.path.expanduser("~/.cookiecutters/create-bindu-agent")
+        template_skills_dir = os.path.join(cookiecutter_cache, "hooks", "skills")
         
-        print(f"\n  📁 Hooks directory: {hooks_dir}")
+        print(f"\n  📁 Cookiecutter cache: {cookiecutter_cache}")
         print(f"  📁 Template skills directory: {template_skills_dir}")
         print(f"  📁 Directory exists: {os.path.exists(template_skills_dir)}")
 
