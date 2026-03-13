@@ -167,46 +167,47 @@ def categorize_skill_from_yaml(yaml_path) -> str:
 
 
 def build_skill_map():
-    """Dynamically build skill number to name mapping from skills/ directory."""
-    from pathlib import Path
-
-    template_skills_dir = Path(__file__).parent.parent / "skills"
-    if not template_skills_dir.exists():
-        return {}
-
-    # Collect all skills organized by category
-    skills_by_category = {
-        "business": [],
-        "research": [],
-        "creative": [],
-        "lifestyle": [],
-        "health": [],
-        "technical": [],
-        "legal": [],
+    """Build skill number to name mapping matching cookiecutter.json order."""
+    # This order MUST match the numbering in cookiecutter.json skill_names prompt
+    skill_map = {
+        # Business & Finance
+        "1": "finance",
+        "2": "financial-coach",
+        "3": "competitor-analysis",
+        "4": "startup-analyst",
+        "5": "explainable-business-reasoning",
+        # Research & Analysis
+        "6": "deep-research",
+        "7": "analyze-paper",
+        "8": "hackernews-analysis",
+        "9": "media-trend-analysis",
+        # Creative & Content
+        "10": "instagram-post",
+        "11": "meme-generator",
+        "12": "screenplay-writer",
+        "13": "recipe-creator",
+        "14": "youtube",
+        "15": "web-extraction",
+        # Personal & Lifestyle
+        "16": "travel-planner",
+        "17": "surprise-travel-planning",
+        "18": "shopping-partner",
+        "19": "movie-recommender",
+        "20": "personalized-book-recommendation",
+        # Health & Wellness
+        "21": "breakup-recovery",
+        "22": "cbt-clinical-critic",
+        "23": "cbt-drafter",
+        "24": "cbt-safety-guardian",
+        "25": "cbt-supervisor-orchestrator",
+        # Technical & Development
+        "26": "system-architect-advisor",
+        "27": "biomni",
+        # Legal & Compliance
+        "28": "legal-consultant",
+        "29": "zk-policy",
     }
 
-    for skill_file in sorted(template_skills_dir.glob("*.yaml")):
-        skill_name = skill_file.stem.replace("-skill", "")
-        category = categorize_skill_from_yaml(skill_file)
-        if category in skills_by_category:
-            skills_by_category[category].append(skill_name)
-
-    # Build numbered map
-    skill_map = {}
-    counter = 1
-    for category in [
-        "business",
-        "research",
-        "creative",
-        "lifestyle",
-        "health",
-        "technical",
-        "legal",
-    ]:
-        for skill in skills_by_category.get(category, []):
-            skill_map[str(counter)] = skill
-            counter += 1
-    
     return skill_map
 
 
