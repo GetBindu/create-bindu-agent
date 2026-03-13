@@ -206,6 +206,8 @@ def build_skill_map():
         for skill in skills_by_category.get(category, []):
             skill_map[str(counter)] = skill
             counter += 1
+    
+    return skill_map
 
 
 if __name__ == "__main__":
