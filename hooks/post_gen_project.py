@@ -66,6 +66,36 @@ def move_dir(src: str, target: str) -> None:
 if __name__ == "__main__":
     # Handle dynamic skills creation
     project_slug = "{{cookiecutter.project_slug}}"
+    
+    # Check if skills were selected (either via prompt or command line)
+    skill_names_str = "{{cookiecutter.skill_names}}"
+    
+    # Also check temp file from pre_gen_project
+    from pathlib import Path
+    temp_file = Path(__file__).parent / ".selected_skills"
+    if temp_file.exists():
+        skill_names_str = temp_file.read_text().strip()
+        temp_file.unlink()  # Clean up
+    
+    if skill_names_str:
+        skill_names = skill_names_str.split(",")
+        
+        # Copy skill YAML files from template skills/ directory
+        template_skills_dir = Path(__file__).parent.parent / "skills"
+        project_skills_dir = Path(PROJECT_DIRECTORY) / project_slug / "skills"
+        project_skills_dir.mkdir(parents=True, exist_ok=True)
+        
+        for skill_name in skill_names:
+            skill_name = skill_name.strip()
+            if skill_name:
+                # Look for the skill YAML file in template
+                skill_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
+                if skill_yaml.exists():
+                    import shutil
+                    shutil.copy(skill_yaml, project_skills_dir / f"{skill_name}-skill.yaml")
+                    print(f"  · Added skill: {skill_name}")
+    
+    # Handle example skills if requested
     if "{{cookiecutter.include_example_skills}}" == "y":
         skill_names = "{{cookiecutter.skill_names}}".split(",")
 

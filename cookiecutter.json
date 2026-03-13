@@ -19,7 +19,7 @@
     "y",
     "n"
   ],
-  "skill_names": "question-answering,pdf-processing",
+  "skill_names": "",
   "auth_provider": [
     "none",
     "auth0",
