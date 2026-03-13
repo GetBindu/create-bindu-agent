@@ -41,8 +41,8 @@
     "none"
   ],
   "enable_paywall": [
-    "y",
-    "n"
+    "n",
+    "y"
   ],
   "include_github_actions": [
     "y",
