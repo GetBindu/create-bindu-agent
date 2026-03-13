@@ -247,32 +247,54 @@ if __name__ == "__main__":
         cookiecutter_cache = os.path.expanduser("~/.cookiecutters/create-bindu-agent")
         template_skills_dir = os.path.join(cookiecutter_cache, "hooks", "skills")
         
+        print(f"DEBUG: Checking cookiecutter cache: {template_skills_dir}")
+        print(f"DEBUG: Cache exists: {os.path.exists(template_skills_dir)}")
+        
         # If cache doesn't exist, look relative to this script
         if not os.path.exists(template_skills_dir):
             # This script is in hooks/, so skills are in hooks/skills/
             script_dir = os.path.dirname(os.path.abspath(__file__))
             template_skills_dir = os.path.join(script_dir, "skills")
+            print(f"DEBUG: Using fallback path: {template_skills_dir}")
+            print(f"DEBUG: Fallback exists: {os.path.exists(template_skills_dir)}")
 
         # Generated project skills directory
         project_skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
         os.makedirs(project_skills_dir, exist_ok=True)
+        
+        print(f"DEBUG: Template skills dir: {template_skills_dir}")
+        print(f"DEBUG: Project skills dir: {project_skills_dir}")
 
         skill_paths = []
+        print(f"DEBUG: Selected skills: {selected_skills}")
+        
         for skill_name in selected_skills:
+            print(f"DEBUG: Processing skill: {skill_name}")
+            
             # Create skill folder in generated project
             skill_folder = os.path.join(project_skills_dir, skill_name)
             os.makedirs(skill_folder, exist_ok=True)
+            print(f"DEBUG: Created skill folder: {skill_folder}")
 
             # Copy skill YAML file from template
             source_yaml = os.path.join(template_skills_dir, f"{skill_name}-skill.yaml")
             dest_yaml = os.path.join(skill_folder, "skill.yaml")
+            
+            print(f"DEBUG: Looking for source: {source_yaml}")
+            print(f"DEBUG: Source exists: {os.path.exists(source_yaml)}")
 
             if os.path.exists(source_yaml):
                 shutil.copy(source_yaml, dest_yaml)
+                print(f"DEBUG: Copied to: {dest_yaml}")
                 skill_paths.append(f"skills/{skill_name}")
             else:
                 # Log warning if skill file not found
-                print(f"Warning: Skill file not found: {source_yaml}")
+                print(f"WARNING: Skill file not found: {source_yaml}")
+                # List what files are actually in the directory
+                if os.path.exists(template_skills_dir):
+                    print(f"DEBUG: Files in {template_skills_dir}:")
+                    for f in os.listdir(template_skills_dir)[:10]:
+                        print(f"  - {f}")
 
         # Update agent_config.json with skill paths
         agent_config_path = os.path.join(
