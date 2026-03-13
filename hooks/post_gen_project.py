@@ -207,93 +207,75 @@ def build_skill_map():
             skill_map[str(counter)] = skill
             counter += 1
 
-    return skill_map
-
 
 if __name__ == "__main__":
-    # Handle dynamic skills creation
+    # Process skill selection
     project_slug = "{{cookiecutter.project_slug}}"
-
-    # Check if skills were selected (via environment variable or installer)
     skill_names_str = "{{cookiecutter.skill_names}}"
 
-    # Remove the help text if it's still there
+    # Remove help text if present
     if "Enter skill names" in skill_names_str or "comma-separated" in skill_names_str:
         skill_names_str = ""
 
-    # Also check temp file from pre_gen_project
-    from pathlib import Path
-
-    temp_file = Path(__file__).parent / ".selected_skills"
-    if temp_file.exists():
-        skill_names_str = temp_file.read_text().strip()
-        temp_file.unlink()  # Clean up
-
-    # Build skill map dynamically from skills/ directory
+    # Build skill map from template skills directory
     skill_map = build_skill_map()
 
-    # Convert numbers to skill names if user entered numbers
+    # Convert numbers to skill names
+    selected_skills = []
     if skill_names_str:
         parts = skill_names_str.split(",")
-        converted_skills = []
         for part in parts:
             part = part.strip()
             if part.isdigit() and part in skill_map:
-                converted_skills.append(skill_map[part])
-            elif part:  # It's already a skill name
-                converted_skills.append(part)
-        skill_names_str = ",".join(converted_skills)
+                # User entered a number, convert to skill name
+                selected_skills.append(skill_map[part])
+            elif part and not part.startswith("💼"):
+                # User entered a skill name directly
+                selected_skills.append(part)
 
-    if skill_names_str:
-        skill_names = skill_names_str.split(",")
+    # Process selected skills
+    if selected_skills:
+        from pathlib import Path
+        import shutil
+        import json
 
-        # Copy skill YAML files from template skills/ directory
+        # Template skills directory
         template_skills_dir = Path(__file__).parent.parent / "skills"
+
+        # Generated project skills directory
         project_skills_dir = Path(PROJECT_DIRECTORY) / project_slug / "skills"
         project_skills_dir.mkdir(parents=True, exist_ok=True)
 
-        for skill_name in skill_names:
-            skill_name = skill_name.strip()
-            if skill_name:
-                # Look for the skill YAML file in template
-                skill_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
-                if skill_yaml.exists():
-                    import shutil
+        skill_paths = []
+        for skill_name in selected_skills:
+            # Create skill folder in generated project
+            skill_folder = project_skills_dir / skill_name
+            skill_folder.mkdir(parents=True, exist_ok=True)
 
-                    shutil.copy(
-                        skill_yaml, project_skills_dir / f"{skill_name}-skill.yaml"
-                    )
-                    print(f"  · Added skill: {skill_name}")
+            # Copy skill YAML file from template
+            source_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
+            dest_yaml = skill_folder / "skill.yaml"
 
-        # Update agent_config.json with converted skill names
-        import json
+            if source_yaml.exists():
+                shutil.copy(source_yaml, dest_yaml)
+                skill_paths.append(f"skills/{skill_name}")
+                print(f"  · Added skill: {skill_name}")
+            else:
+                print(f"  ⚠ Warning: Skill file not found for {skill_name}")
 
+        # Update agent_config.json with skill paths
         agent_config_path = Path(PROJECT_DIRECTORY) / project_slug / "agent_config.json"
-        if agent_config_path.exists():
+        if agent_config_path.exists() and skill_paths:
             with open(agent_config_path, "r") as f:
                 config = json.load(f)
 
-            # Update skills array with converted names
-            config["skills"] = [
-                f"skills/{skill.strip()}" for skill in skill_names if skill.strip()
-            ]
+            config["skills"] = skill_paths
 
             with open(agent_config_path, "w") as f:
                 json.dump(config, f, indent=2)
-            print(f"  · Updated agent_config.json with {len(config['skills'])} skills")
+            print(f"  · Updated agent_config.json with {len(skill_paths)} skills")
 
-    # Remove the template folder
-    template_dir = os.path.join(
-        PROJECT_DIRECTORY, project_slug, "skills", "__TEMPLATE__"
-    )
-    if os.path.exists(template_dir):
-        remove_dir(os.path.join(project_slug, "skills", "__TEMPLATE__"))
-
-    # Remove skills folder if no skills created
-    skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
-    if os.path.exists(skills_dir) and not os.listdir(skills_dir):
-        remove_dir(os.path.join(project_slug, "skills"))
-
+    # Cleanup and license handling
     if "{{cookiecutter.include_github_actions}}" != "y":
         remove_dir(".github")
 
