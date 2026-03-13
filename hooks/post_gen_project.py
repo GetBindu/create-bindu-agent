@@ -241,10 +241,17 @@ if __name__ == "__main__":
         import shutil
         import json
 
-        # Template skills directory - use cookiecutter cache since hooks dir is copied to temp
-        # The skills are in ~/.cookiecutters/create-bindu-agent/hooks/skills
+        # Template skills directory - try multiple locations
+        # 1. Try cookiecutter cache first (when run from GitHub URL)
+        # 2. Fall back to relative path from hooks dir (when run from local clone)
         cookiecutter_cache = os.path.expanduser("~/.cookiecutters/create-bindu-agent")
         template_skills_dir = os.path.join(cookiecutter_cache, "hooks", "skills")
+        
+        # If cache doesn't exist, look relative to this script
+        if not os.path.exists(template_skills_dir):
+            # This script is in hooks/, so skills are in hooks/skills/
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            template_skills_dir = os.path.join(script_dir, "skills")
 
         # Generated project skills directory
         project_skills_dir = os.path.join(PROJECT_DIRECTORY, project_slug, "skills")
@@ -263,6 +270,9 @@ if __name__ == "__main__":
             if os.path.exists(source_yaml):
                 shutil.copy(source_yaml, dest_yaml)
                 skill_paths.append(f"skills/{skill_name}")
+            else:
+                # Log warning if skill file not found
+                print(f"Warning: Skill file not found: {source_yaml}")
 
         # Update agent_config.json with skill paths
         agent_config_path = os.path.join(
