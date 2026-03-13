@@ -67,38 +67,99 @@ def categorize_skill_from_yaml(yaml_path) -> str:
     """Categorize a skill by reading its YAML file and checking tags."""
     try:
         import yaml
+
         with open(yaml_path) as f:
             skill_data = yaml.safe_load(f)
-        
+
         tags = skill_data.get("tags", [])
         skill_name = skill_data.get("name", "")
-        
+
         # Categorize based on tags or name
         tags_str = " ".join(tags).lower()
         name_lower = skill_name.lower()
-        
+
         # Business & Finance
-        if any(x in tags_str or x in name_lower for x in ["finance", "financial", "stock", "market", "business", "competitor", "startup"]):
+        if any(
+            x in tags_str or x in name_lower
+            for x in [
+                "finance",
+                "financial",
+                "stock",
+                "market",
+                "business",
+                "competitor",
+                "startup",
+            ]
+        ):
             return "business"
         # Research & Analysis
-        elif any(x in tags_str or x in name_lower for x in ["research", "analysis", "paper", "academic", "hackernews", "media-trend"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in [
+                "research",
+                "analysis",
+                "paper",
+                "academic",
+                "hackernews",
+                "media-trend",
+            ]
+        ):
             return "research"
         # Creative & Content
-        elif any(x in tags_str or x in name_lower for x in ["instagram", "meme", "screenplay", "recipe", "youtube", "content", "creative", "video", "web-extraction"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in [
+                "instagram",
+                "meme",
+                "screenplay",
+                "recipe",
+                "youtube",
+                "content",
+                "creative",
+                "video",
+                "web-extraction",
+            ]
+        ):
             return "creative"
         # Lifestyle
-        elif any(x in tags_str or x in name_lower for x in ["travel", "shopping", "movie", "book", "recommendation", "lifestyle"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in [
+                "travel",
+                "shopping",
+                "movie",
+                "book",
+                "recommendation",
+                "lifestyle",
+            ]
+        ):
             return "lifestyle"
         # Health & Wellness
-        elif any(x in tags_str or x in name_lower for x in ["health", "wellness", "breakup", "cbt", "therapy", "mental"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in ["health", "wellness", "breakup", "cbt", "therapy", "mental"]
+        ):
             return "health"
         # Legal & Compliance
-        elif any(x in tags_str or x in name_lower for x in ["legal", "law", "policy", "compliance", "zk-policy"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in ["legal", "law", "policy", "compliance", "zk-policy"]
+        ):
             return "legal"
         # Technical & Development
-        elif any(x in tags_str or x in name_lower for x in ["technical", "system", "architect", "development", "biomni", "engineering"]):
+        elif any(
+            x in tags_str or x in name_lower
+            for x in [
+                "technical",
+                "system",
+                "architect",
+                "development",
+                "biomni",
+                "engineering",
+            ]
+        ):
             return "technical"
-        
+
         return "other"
     except Exception:
         # Fallback to name-based categorization if YAML parsing fails
@@ -108,11 +169,11 @@ def categorize_skill_from_yaml(yaml_path) -> str:
 def build_skill_map():
     """Dynamically build skill number to name mapping from skills/ directory."""
     from pathlib import Path
-    
+
     template_skills_dir = Path(__file__).parent.parent / "skills"
     if not template_skills_dir.exists():
         return {}
-    
+
     # Collect all skills organized by category
     skills_by_category = {
         "business": [],
@@ -123,45 +184,54 @@ def build_skill_map():
         "technical": [],
         "legal": [],
     }
-    
+
     for skill_file in sorted(template_skills_dir.glob("*.yaml")):
         skill_name = skill_file.stem.replace("-skill", "")
         category = categorize_skill_from_yaml(skill_file)
         if category in skills_by_category:
             skills_by_category[category].append(skill_name)
-    
+
     # Build numbered map
     skill_map = {}
     counter = 1
-    for category in ["business", "research", "creative", "lifestyle", "health", "technical", "legal"]:
+    for category in [
+        "business",
+        "research",
+        "creative",
+        "lifestyle",
+        "health",
+        "technical",
+        "legal",
+    ]:
         for skill in skills_by_category.get(category, []):
             skill_map[str(counter)] = skill
             counter += 1
-    
+
     return skill_map
 
 
 if __name__ == "__main__":
     # Handle dynamic skills creation
     project_slug = "{{cookiecutter.project_slug}}"
-    
+
     # Check if skills were selected (via environment variable or installer)
     skill_names_str = "{{cookiecutter.skill_names}}"
-    
+
     # Remove the help text if it's still there
     if "Enter skill names" in skill_names_str or "comma-separated" in skill_names_str:
         skill_names_str = ""
-    
+
     # Also check temp file from pre_gen_project
     from pathlib import Path
+
     temp_file = Path(__file__).parent / ".selected_skills"
     if temp_file.exists():
         skill_names_str = temp_file.read_text().strip()
         temp_file.unlink()  # Clean up
-    
+
     # Build skill map dynamically from skills/ directory
     skill_map = build_skill_map()
-    
+
     # Convert numbers to skill names if user entered numbers
     if skill_names_str:
         parts = skill_names_str.split(",")
@@ -173,15 +243,15 @@ if __name__ == "__main__":
             elif part:  # It's already a skill name
                 converted_skills.append(part)
         skill_names_str = ",".join(converted_skills)
-    
+
     if skill_names_str:
         skill_names = skill_names_str.split(",")
-        
+
         # Copy skill YAML files from template skills/ directory
         template_skills_dir = Path(__file__).parent.parent / "skills"
         project_skills_dir = Path(PROJECT_DIRECTORY) / project_slug / "skills"
         project_skills_dir.mkdir(parents=True, exist_ok=True)
-        
+
         for skill_name in skill_names:
             skill_name = skill_name.strip()
             if skill_name:
@@ -189,9 +259,25 @@ if __name__ == "__main__":
                 skill_yaml = template_skills_dir / f"{skill_name}-skill.yaml"
                 if skill_yaml.exists():
                     import shutil
-                    shutil.copy(skill_yaml, project_skills_dir / f"{skill_name}-skill.yaml")
+
+                    shutil.copy(
+                        skill_yaml, project_skills_dir / f"{skill_name}-skill.yaml"
+                    )
                     print(f"  · Added skill: {skill_name}")
-    
+
+        # Update agent_config.json with converted skill names
+        import json
+        agent_config_path = Path(PROJECT_DIRECTORY) / project_slug / "agent_config.json"
+        if agent_config_path.exists():
+            with open(agent_config_path, 'r') as f:
+                config = json.load(f)
+
+            # Update skills array with converted names
+            config['skills'] = [f"skills/{skill.strip()}" for skill in skill_names if skill.strip()]
+
+            with open(agent_config_path, 'w') as f:
+                json.dump(config, f, indent=2)
+            print(f"  · Updated agent_config.json with {len(config['skills'])} skills")
 
     # Remove the template folder
     template_dir = os.path.join(

@@ -250,14 +250,14 @@ async def initialize_agent() -> None:
     tools = []
     if mcp_tools:
         tools.extend(mcp_tools.get_tools())
-    
+
     # Create the agent
     from langchain import hub
     prompt = hub.pull("hwchase17/openai-tools-agent")
-    
+
     agent = create_tool_calling_agent(llm, tools, prompt)
     agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-    
+
     # Store the executor
     global agent_executor
     agent_executor = agent_executor

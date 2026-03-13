@@ -15,13 +15,10 @@
     "google adk agent",
     "custom"
   ],
-  "skill_names": "💼 Business: 1-finance 2-financial-coach 3-competitor-analysis 4-startup-analyst 5-explainable-business | 🔬 Research: 6-deep-research 7-analyze-paper 8-hackernews 9-media-trend | 🎨 Creative: 10-instagram 11-meme 12-screenplay 13-recipe 14-youtube 15-web-extraction | 🌟 Lifestyle: 16-travel 17-surprise-travel 18-shopping 19-movie 20-book | 💚 Health: 21-breakup 22-23-24-25-cbt | ⚙️ Tech: 26-architect 27-biomni | ⚖️ Legal: 28-29-legal-zk | Enter numbers (e.g. 1,6,10) or skill names, or press Enter to skip",
+  "skill_names": "\n\ud83d\udcbc Business & Finance\n  1. finance  2. financial-coach  3. competitor-analysis  4. startup-analyst  5. explainable-business\n\ud83d\udd2c Research & Analysis\n  6. deep-research  7. analyze-paper  8. hackernews-analysis  9. media-trend-analysis\n\ud83c\udfa8 Creative & Content\n  10. instagram-post  11. meme-generator  12. screenplay-writer  13. recipe-creator  14. youtube  15. web-extraction\n\ud83c\udf1f Personal & Lifestyle\n  16. travel-planner  17. surprise-travel-planning  18. shopping-partner  19. movie-recommender  20. personalized-book-recommendation\n\ud83d\udc9a Health & Wellness\n  21. breakup-recovery  22. cbt-clinical-critic  23. cbt-drafter  24. cbt-safety-guardian  25. cbt-supervisor-orchestrator\n\u2699\ufe0f  Technical & Development\n  26. system-architect-advisor  27. biomni\n\u2696\ufe0f  Legal & Compliance\n  28. legal-consultant  29. zk-policy\n\nEnter numbers (e.g., 1,6,10) or skill names (e.g., finance,deep-research), or press Enter to skip",
   "auth_provider": [
-    "none",
-    "auth0",
-    "cognito",
-    "azure-ad",
-    "google"
+    "y",
+    "n"
   ],
   "observability_provider": [
     "none",
@@ -29,11 +26,23 @@
     "jaeger",
     "langfuse"
   ],
+  "storage_type": [
+    "memory",
+    "postgres"
+  ],
+  "scheduler_type": [
+    "memory",
+    "redis"
+  ],
   "security_features": [
-    "none",
     "did-and-pki",
     "did-only",
-    "pki-only"
+    "pki-only",
+    "none"
+  ],
+  "enable_paywall": [
+    "y",
+    "n"
   ],
   "include_github_actions": [
     "y",
@@ -63,6 +72,10 @@
   "_recreate_keys": "n",
   "_enable_execution_cost": "n",
   "_telemetry_backend": "jaeger",
+  "_paywall_amount": "$0.0001",
+  "_paywall_token": "USDC",
+  "_paywall_network": "base-sepolia",
+  "_paywall_address": "0x0000000000000000000000000000000000000000",
   "_oltp_endpoint": "http://localhost:4318/v1/traces",
   "_phoenix_endpoint": "http://localhost:6006",
   "_langfuse_endpoint": "http://localhost:3000"

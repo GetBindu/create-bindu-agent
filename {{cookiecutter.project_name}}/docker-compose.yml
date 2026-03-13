@@ -9,22 +9,22 @@ services:
     environment:
       # OpenRouter API Configuration
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      
+
       # Mem0 Memory Configuration
       - MEM0_API_KEY=${MEM0_API_KEY}
-      
+
       # Database Configuration
       - STORAGE_TYPE=${STORAGE_TYPE:-memory}
       - DATABASE_URL=${DATABASE_URL}
-      
+
       # Redis Scheduler Configuration
       - SCHEDULER_TYPE=${SCHEDULER_TYPE:-memory}
       - REDIS_URL=${REDIS_URL}
-      
+
       # Sentry Error Tracking
       - SENTRY_ENABLED=${SENTRY_ENABLED:-false}
       - SENTRY_DSN=${SENTRY_DSN}
-      
+
       # Telemetry & Observability
       - TELEMETRY_ENABLED=${TELEMETRY_ENABLED:-false}
       - OLTP_VERBOSE_LOGGING=${OLTP_VERBOSE_LOGGING:-false}

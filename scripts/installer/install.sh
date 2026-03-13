@@ -53,7 +53,7 @@ fi
 if ! command -v uv &> /dev/null; then
     echo -e "$PREFIX  ${C_YELLOW}[WARN] UV not found. Installing...${C_RESET}"
     curl -LsSf https://astral.sh/uv/install.sh | sh > /dev/null 2>&1
-    
+
     # Force add common install paths to PATH for this session
     export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
 fi
@@ -118,7 +118,7 @@ else
     cnt=0
     declare -A SKILL_MAP
     declare -A SKILL_PATH_MAP
-    
+
     # Loop through directories
     for d in "$TEMP_CLONE/examples/skills"/*; do
         if [ -d "$d" ]; then

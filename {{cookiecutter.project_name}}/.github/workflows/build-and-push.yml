@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "config=$(cat {{ cookiecutter.project_slug }}/agent_config.json | jq -c .)" >> $GITHUB_OUTPUT
           echo "version=$(cat .version | tr -d '\n')" >> $GITHUB_OUTPUT
-          
+
           # Read all skills from the skills folder
           skills_array="[]"
           for skill_dir in {{ cookiecutter.project_slug }}/skills/*/; do

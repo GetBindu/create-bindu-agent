@@ -96,4 +96,4 @@ bash install.sh
 - Ensure Git is installed
 - Check network connectivity
 - Verify uv installation: `uv --version`
-- For Windows, run PowerShell as Administrator if needed 
+- For Windows, run PowerShell as Administrator if needed
